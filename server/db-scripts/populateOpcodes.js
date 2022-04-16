@@ -29,7 +29,7 @@ const flatten = (key, opcode, cbPrefixed=false) => {
   // to be prefixed with 0xCB
   let hexCode = key;
   if(cbPrefixed) {
-    hexCode = hexCode.slice(0, 2) + "CB" + hexCode.slice(2, 0);
+    hexCode = hexCode.slice(0, 2) + "CB" + hexCode.slice(2);
   }
   return {...opcode, hexCode}
 }
