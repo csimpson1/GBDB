@@ -64,7 +64,42 @@ const expandArrayDisjunction = (key, paramVal) => {
     }
 
     return query;
+}
 
+const makeCycleQuery = (operation, val) => {
+    // Make the query string for querying operation cycles
+    if(typeof val !== 'number'){
+        throw new Error('Value passed for cycle must be a number!');
+    }
+    else {
+        let query = [];
+
+        switch(operation){
+            case 'gt': {
+                const queryPart = {cycles : {$gt: val}};
+                query.push(queryPart);
+                break;
+            }
+
+            case 'lt': {
+                const queryPart = {cycles: {$lt: val}};
+                query.push(queryPart);
+                break;
+            }
+
+            case 'eq': {
+                const queryPart = {cycles: val};
+                query.push(queryPart);
+                break;
+            }
+
+            default: {
+                throw new Error(`Operation ${op} not recognized!`)
+            }
+        }
+
+        return query;
+    }
     
 }
 
@@ -78,6 +113,9 @@ const getOpcodesByParams = async(req, res) => {
 
         // complex parameters in our DB consist of some kind of data structure. these are
         // cycles, operands, flags
+        
+        // TODO: Implement searching for flags of a certain action
+        // TODO: Implement searching for operands that have a certain name, and are immediate or not
 
         let queryString = {};
         Object.keys(req.body).forEach(key => {
@@ -85,6 +123,15 @@ const getOpcodesByParams = async(req, res) => {
             // provide the correct query object
             if(['mnemonic', 'bytes', 'immediate', 'hexCode'].includes(key)){
                 queryString = {...queryString, $or: expandArrayDisjunction(key, req.body[key])}
+            }
+
+            else if(key === 'cycles'){
+                // cycles : {
+                // op : 'gt' | 'lt' | 'eq'
+                // val: number
+                // }
+                
+                queryString = {...queryString, $or: makeCycleQuery(req.body.cycles.op, req.body.cycles.val)};
             }
         })
 
