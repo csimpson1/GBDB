@@ -101,6 +101,17 @@ const makeCycleQuery = (operation, val) => {
         return query;
     }
     
+};
+
+const makeFlagQuery = (flags) => {
+    
+
+    const query = {};
+    Object.keys(flags).forEach(key => {
+        query[`flags.${key}`] = flags[key];
+    });
+
+    return query
 }
 
 const getOpcodesByParams = async(req, res) => {
@@ -132,6 +143,10 @@ const getOpcodesByParams = async(req, res) => {
                 // }
                 
                 queryString = {...queryString, $or: makeCycleQuery(req.body.cycles.op, req.body.cycles.val)};
+            }
+
+            else if( key === 'flags'){
+                queryString = {...queryString, $or: [makeFlagQuery(req.body.flags)]}
             }
         })
 
