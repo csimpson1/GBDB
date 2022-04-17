@@ -4,7 +4,8 @@ const express = require("express");
 const morgan = require("morgan");
 
 const {
-    getAllOpcodes
+    getAllOpcodes,
+    getOpcodesByParams,
 } = require('./opcodeHandlers');
 
 const PORT = 4000;
@@ -29,5 +30,6 @@ express()
 
     // ENDPOINTS
     .get("/opcodes", getAllOpcodes)
+    .post("/opcodes", getOpcodesByParams)
 
     .listen(PORT, () => console.info(`Listening on port ${PORT}`));
