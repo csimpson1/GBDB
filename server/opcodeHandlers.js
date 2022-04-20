@@ -1,3 +1,4 @@
+const { query } = require('express');
 const { MongoClient } = require('mongodb');
 require("dotenv").config();
 const { MONGO_URI, OPCODES_COL } = process.env;
@@ -36,7 +37,7 @@ const expandArrayDisjunction = (key, paramVal) => {
     // query string
 
     // sample query
-    // db.inventory.find( { $or: [ { quantity: { $lt: 20 } }, { price: 10 } ] } )
+    // db.inventory.find( { $and: [ { quantity: { $lt: 20 } }, { price: 10 } ] } )
 
     let query = []
     if(Array.isArray(paramVal) && paramVal.length > 1){
@@ -104,7 +105,6 @@ const makeCycleQuery = (operation, val) => {
 };
 
 const makeFlagQuery = (flags) => {
-    
 
     const query = {};
     Object.keys(flags).forEach(key => {
@@ -112,6 +112,73 @@ const makeFlagQuery = (flags) => {
     });
 
     return query
+}
+
+const makeOperandQuery = (operandQueryString) => {
+    // Make the query string to look for the specified operand signature
+    /*
+    operandQueryString has the following shape
+    [
+        {
+            name: optional. Name of the operand
+            bytes: optional. Number of bytes taken up by the operand. Important when CPU reads data
+            immediate: optional. Specifies if operand is read from memory pointed to by PC
+            index: optional. Specifies the index of the operand. Assumed to be 0 indexed
+        },
+        {
+            ...
+        },...
+    ]
+
+    */
+
+    if( Array.isArray(operandQueryString) && operandQueryString.length > 0 ){
+        let query = [];
+        // search through each operand passed
+        for(let i = 0; i < operandQueryString.length; i++){
+            let operand = operandQueryString[i];
+            console.log(operand);
+            let searchKeys = Object.keys(operand);
+            // We want to make sure the user actually passes something to search off of
+            if(searchKeys.length > 0){
+                
+                // If the user specifies an index, we need to add it as a suffix to all keys to search through
+                let indexSuffix = '';
+                if(operand.hasOwnProperty('index')){
+                    indexSuffix = `.${operand.index}`;
+                }
+                
+                searchKeys.forEach(searchKey => {
+                    if(searchKey !== 'index'){
+                        // Get the value, and construct the subquery object and add it to the query
+                        const searchValue = operand[searchKey];
+                        let queryPart = {};
+                        console.log(queryPart);
+                        queryPart[`operands${indexSuffix}.${searchKey}`] = searchValue;
+                        query.push(queryPart);
+                    }
+                })
+
+
+            }
+
+            else{
+                throw new Error('Empty operand passed!')
+            }
+
+            console.log(query);
+            return query;
+        }
+    }
+
+    else if(!Array.isArray(operandQueryString)){
+        throw new Error('Need an array of operands to search!');
+    }
+
+    // IE the array has length 0
+    else {
+        throw new Error('Array of operands is empty!');
+    }
 }
 
 const getOpcodesByParams = async(req, res) => {
@@ -133,7 +200,7 @@ const getOpcodesByParams = async(req, res) => {
             // for simple parameters, we just look to see if we are passing multiple values to search for, and
             // provide the correct query object
             if(['mnemonic', 'bytes', 'immediate', 'hexCode'].includes(key)){
-                queryString = {...queryString, $or: expandArrayDisjunction(key, req.body[key])}
+                queryString = {...queryString, $and: expandArrayDisjunction(key, req.body[key])}
             }
 
             else if(key === 'cycles'){
@@ -142,11 +209,15 @@ const getOpcodesByParams = async(req, res) => {
                 // val: number
                 // }
                 
-                queryString = {...queryString, $or: makeCycleQuery(req.body.cycles.op, req.body.cycles.val)};
+                queryString = {...queryString, $and: makeCycleQuery(req.body.cycles.op, req.body.cycles.val)};
             }
 
-            else if( key === 'flags'){
-                queryString = {...queryString, $or: [makeFlagQuery(req.body.flags)]}
+            else if(key === 'flags'){
+                queryString = {...queryString, $and: [makeFlagQuery(req.body.flags)]}
+            }
+
+            else if(key === 'operands'){
+                queryString = {...queryString, $and: makeOperandQuery(req.body.operands)}
             }
         })
 
