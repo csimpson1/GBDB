@@ -23,5 +23,9 @@ export default createGlobalStyle`
         --color-purple-ds: #A249F5;
         --color-blue-ds: #4D43DE;
         --color-lightblue-ds: #4D43DE;
+
+
+        /* Sizing variables */
+        
     }
 `;

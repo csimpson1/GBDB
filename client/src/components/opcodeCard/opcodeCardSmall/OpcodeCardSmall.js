@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { getCardColor } from '../CardThemes';
 
 /*
@@ -30,12 +30,17 @@ import { getCardColor } from '../CardThemes';
     hexCode:"0x02"
 */
 
-const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexcode}) => {
+const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexCode}) => {
     const theme = getCardColor(mnemonic, operands);
     
     const getTitleString = (mnemonic, operands) => {
         let titleString = '';
         switch(operands.length){
+            case 0:{
+                titleString = mnemonic;
+                break;
+            }
+            
             case 1:{
                 titleString = `${mnemonic} ${operands[0].name}`;
                 break;
@@ -85,20 +90,70 @@ const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexcode}) => {
     const getFlagString = (flags) => {
         return `${flags.Z} ${flags.N} ${flags.H} ${flags.C}`
     }
-    console.log('here!');
+
+    console.log(theme);
+
     return(
-        <div>
-            <div>
-                {getTitleString(mnemonic, operands)}
-            </div>
-            <div>
-                {getCycleString(cycles)}
-            </div>
-            <div>
-                {getFlagString(flags)}
-            </div>
-        </div>    
+        <ThemeProvider theme={theme}>
+            <Cube>
+                <Side></Side>
+                <Front>
+                    <div>
+                        {getTitleString(mnemonic, operands)}
+                    </div>
+                    <div>
+                        {getCycleString(cycles)}
+                    </div>
+                    <div>
+                        {getFlagString(flags)}
+                    </div>
+                </Front>
+                <Bottom></Bottom>
+            </Cube>
+            
+        </ThemeProvider>    
     );
 };
+
+const Cube = styled.div`
+    position: relative;
+    width: 5em;
+    height: 5em;
+`;
+
+const Front = styled.div`
+    position: absolute;
+    background-color: ${props => props.theme.primary};
+    width: 5em;
+    height: 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transform: translate(0.5em);
+`;
+
+const Side = styled.div`
+
+    width: 0.5em;
+    height: 5em;
+    background-color: ${props => props.theme.secondary};
+
+    position: absolute;
+    transform-origin: top right;
+    transform: skew(0,-45deg);
+    
+`;
+
+const Bottom = styled.div`
+    width: 5em;
+    height: 0.5em;
+    background-color: ${props => props.theme.secondary};
+    position: absolute;
+    transform-origin: top right;
+    transform: translate(0.5em, 5em) skew(-45deg);
+`;
+
+
 
 export default OpcodeCardSmall;

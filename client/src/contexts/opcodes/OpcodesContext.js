@@ -40,9 +40,11 @@ export const OpcodesProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const getOpcodes = async () => {
+        console.log('getting opcodes');
         try{
             dispatch({type:'loading-data'});
             const resp = await fetch('/opcodes');
+            await console.log(resp);
             const parsedResp = await resp.json();
             if(parsedResp.status < 400){
                 dispatch({type: 'got-data', data: parsedResp.data});
@@ -68,7 +70,7 @@ export const OpcodesProvider = ({ children }) => {
                 }
             }}
         >
-
+        {children}
         </OpcodesContext.Provider>
     );
 };

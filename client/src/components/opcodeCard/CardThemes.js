@@ -16,45 +16,45 @@ Depending on the mnemonic, return the proper color for styling the card
 
 // 8 bit loads
 export const eightBitLdTheme = {
-    primary: "--var(--color-pinkred)",
-    secondary: "--var(--color-pinkred-ds)",
+    primary: 'var(--color-pinkred)',
+    secondary: "var(--color-pinkred-ds)",
 };
 
 //  16 bit loads
 export const sixteenBitLdTheme =  {
-    primary: "--var(--color-pink)",
-    secondary: "--var(--color-pink-ds)",
+    primary: 'var(--color-pink)',
+    secondary: "var(--color-pink-ds)",
 };
 
 // 8 bit alu ops
 export const eightBitAluTheme = {
-    primary: "--var(--color-lightblue)",
-    secondary: "--var(--color-lightblue-ds)",
+    primary: "var(--color-lightblue)",
+    secondary: "var(--color-lightblue-ds)",
 };
 
 // 16 bit alu ops
 export const sixteenBitAluTheme = {
-    primary: "--var(--color-blue)",
-    secondary: "--var(--color-blue-ds)",
+    primary: "var(--color-blue)",
+    secondary: "var(--color-blue-ds)",
 };
 
 // jump & call ops
 export const jpTheme = {
-    primary: "--var(--color-tangerine)",
-    secondary: "--var(--color-tangerine-ds)",
+    primary: "var(--color-tangerine)",
+    secondary: "var(--color-tangerine-ds)",
 };
 
 // 8 bit shifts, rotations, bitwise ops
 export const regTheme = {
-    primary: "--var(--color-purple)",
-    secondary: "--var(--color-purple-ds)",
+    primary: "var(--color-purple)",
+    secondary: "var(--color-purple-ds)",
 };
 
 
 // control ops
 export const controlTheme = {
-    primary: "--var(--color-bluegreen)",
-    secondary: "--var(--color-bluegreen-ds)"
+    primary: "var(--color-bluegreen)",
+    secondary: "var(--color-bluegreen-ds)"
 };
 
 // fallback
