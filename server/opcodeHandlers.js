@@ -192,14 +192,12 @@ const getOpcodesByParams = async(req, res) => {
         // complex parameters in our DB consist of some kind of data structure. these are
         // cycles, operands, flags
         
-        // TODO: Implement searching for flags of a certain action
-        // TODO: Implement searching for operands that have a certain name, and are immediate or not
 
         let queryString = {};
         Object.keys(req.body).forEach(key => {
             // for simple parameters, we just look to see if we are passing multiple values to search for, and
             // provide the correct query object
-            if(['mnemonic', 'bytes', 'immediate', 'hexCode'].includes(key)){
+            if(['mnemonic', 'bytes', 'immediate', 'hexCode', 'category'].includes(key)){
                 queryString = {...queryString, $and: expandArrayDisjunction(key, req.body[key])}
             }
 
@@ -219,6 +217,7 @@ const getOpcodesByParams = async(req, res) => {
             else if(key === 'operands'){
                 queryString = {...queryString, $and: makeOperandQuery(req.body.operands)}
             }
+
         })
 
         console.log(queryString);
