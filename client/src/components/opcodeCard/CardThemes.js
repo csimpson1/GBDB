@@ -161,7 +161,7 @@ export const getCardColor = (mnemonic, operands) => {
         'XOR',
         'OR',
         'CP',
-    ] && isEightB ){
+    ].includes(mnemonic) && isEightB ){
         return eightBitAluTheme;
     }
 
