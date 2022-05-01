@@ -63,37 +63,45 @@ const GeneralSection = ({submit}) => {
         console.log(cycles.current.getValue());
     }
 
-    const updateSearchVal = (key, ref) => {
+    const updateSearchVal = (evt, key,) => {
         const payload = {};
-        let value;
-        // react-select exposes a getter for its value
-        if(ref.current.instancePrefix && ref.current.instancePrefix === 'react-select-3'){
-            value = ref.current.getValue();
+        let choices = evt;
+        console.log('event ', evt);
+        if(choices.value){
+            choices = choices.value;
         }
-
-        else{
-            value = ref.current.value;
+        else if(choices[0] && choices[0].value){
+            console.log(choices);
+            choices = choices.map(choice => choice.value);
         }
-
-        payload[key] = value;
+        console.log(choices);
+        payload[key] = choices;
         updateFilters(payload);
 
     };
 
-    const updateCategories = () => {
-        updateSearchVal('category', categories);
+    const updateSearchValRef = (ref, key) => {
+        const value = ref.current.getValue();
+        console.log(value);
     };
 
-    const updateHexCode = () => {
-        updateSearchVal('hexCode', hexCode);
+    const updateCategories = (evt) => {
+        console.log(evt);
+        updateSearchVal(evt, 'category');
     };
 
-    const updateBytes = () => {
-        updateSearchVal('bytes', bytes);
+    const updateHexCode = (evt) => {
+        updateSearchVal(evt, 'hexCode');
     };
 
-    const updateCycles = () => {
-        updateSearchVal('cycles', cycles);
+    const updateBytes = (evt) => {
+        console.log('event ', evt);
+        updateSearchVal(evt, 'bytes');
+    };
+
+    const updateCycles = (evt) => {
+        console.group(evt);
+        updateSearchVal(evt, 'cycles');
     }
 
     React.useEffect(() => {}, [submit]);
@@ -108,7 +116,7 @@ const GeneralSection = ({submit}) => {
                     options={categoryOptions}
                     id='categories'
                     ref={categories}
-                    onInputChange={updateCategories}
+                    onChange={updateCategories}
                 />
             </InputContainer>
             <InputContainer>
@@ -117,11 +125,11 @@ const GeneralSection = ({submit}) => {
             </InputContainer>
             <InputContainer>
                 <label htmlFor="bytes">Bytes</label>
-                <Select id ="bytes" name="bytes" options={bytesOptions} ref={bytes} onInputChange={updateBytes}/>
+                <Select id ="bytes" name="bytes" options={bytesOptions} ref={bytes} onChange={updateBytes}/>
             </InputContainer>
             <InputContainer>
                 <label htmlFor="cycles">Cycles</label>
-                <Select id="cycles" name="cycles" options={cyclesOptions} ref={cycles} onInputChange={updateCycles}/>
+                <Select id="cycles" name="cycles" options={cyclesOptions} ref={cycles} onChange={updateCycles}/>
             </InputContainer>
             <button onClick={handleClick}>TEST</button>
         </FilterSection>
