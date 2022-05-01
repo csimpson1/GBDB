@@ -108,27 +108,30 @@ const OpcodeGrid = () => {
     } = React.useContext(OpcodesContext);
 
     React.useEffect(() => {
-        console.log('In grid');
-        if(opcodes.length === 0){
+        if(!opcodes || opcodes.length === 0){
             getOpcodes();
         }
         
     }, []);
 
     return(
-        <Container>
-            {opcodes.map(opcode => {
-                return (
-                <OpcodeCardSmall
-                    mnemonic={opcode.mnemonic}
-                    cycles={opcode.cycles}
-                    operands={opcode.operands}
-                    flags={opcode.flags}
-                    hexCode={opcode.hexCode}
-                    key={opcode.hexCode}
-                />)
-            })}
-        </Container>
+        <>
+            {opcodes && 
+                <Container>
+                    {opcodes.map(opcode => {
+                        return (
+                        <OpcodeCardSmall
+                            mnemonic={opcode.mnemonic}
+                            cycles={opcode.cycles}
+                            operands={opcode.operands}
+                            flags={opcode.flags}
+                            hexCode={opcode.hexCode}
+                            key={opcode.hexCode}
+                        />)
+                    })}
+                </Container>
+            }
+        </>
     )
 }
 

@@ -91,8 +91,6 @@ const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexCode}) => {
         return `${flags.Z} ${flags.N} ${flags.H} ${flags.C}`
     }
 
-    console.log(theme);
-
     return(
         <ThemeProvider theme={theme}>
             <Cube>

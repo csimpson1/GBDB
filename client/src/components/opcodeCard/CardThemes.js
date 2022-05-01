@@ -185,3 +185,4 @@ export const getCardColor = (mnemonic, operands) => {
         return defaultTheme;
     }
 }
+
