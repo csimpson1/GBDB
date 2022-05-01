@@ -48,10 +48,17 @@ const GeneralSection = ({submit}) => {
         {value:24, label:24},
     ];
 
+    const operationOptions = [
+        {value: 'lt', label: 'Less Than'},
+        {value: 'eq', label: 'Equal To'},
+        {value: 'gt', label: 'Greater Than'}
+    ];
+
     const categories = React.useRef(null);
     const hexCode = React.useRef(null);
     const bytes= React.useRef(null);
     const cycles = React.useRef(null);
+    const operation = React.useRef(null);
 
     const handleClick = (evt) => {
         evt.preventDefault();
@@ -80,11 +87,6 @@ const GeneralSection = ({submit}) => {
 
     };
 
-    const updateSearchValRef = (ref, key) => {
-        const value = ref.current.getValue();
-        console.log(value);
-    };
-
     const updateCategories = (evt) => {
         console.log(evt);
         updateSearchVal(evt, 'category');
@@ -100,11 +102,12 @@ const GeneralSection = ({submit}) => {
     };
 
     const updateCycles = (evt) => {
-        console.group(evt);
         updateSearchVal(evt, 'cycles');
-    }
+    };
 
-    React.useEffect(() => {}, [submit]);
+    const updateCyclesOperand = (evt) => {
+        updateSearchVal(evt, 'cyclesOperation');
+    }
 
     return(
         <FilterSection label="General Options">
@@ -130,6 +133,7 @@ const GeneralSection = ({submit}) => {
             <InputContainer>
                 <label htmlFor="cycles">Cycles</label>
                 <Select id="cycles" name="cycles" options={cyclesOptions} ref={cycles} onChange={updateCycles}/>
+                <Select id="operation" name="operations" options={operationOptions} ref={operation} onChange={updateCyclesOperand}/>
             </InputContainer>
             <button onClick={handleClick}>TEST</button>
         </FilterSection>

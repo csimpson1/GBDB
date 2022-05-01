@@ -23,6 +23,7 @@ const initialState = {
     hexCode: null,
     category: null,
     cycles: null,
+    cyclesOperation: null,
     flags: null,
     operands: null,
 };
@@ -38,7 +39,30 @@ const reducer = (state, action) => {
             const newState = clone(state);
             toUpdate.forEach(key => {
                 if(validKeys.includes(key)){
-                    newState[key] = action.data[key];
+                    const value = action.data[key];
+                    // We need to filter out empty values since the service
+                    // will search for whatever we pass it, even an empty value
+                    // which would return nothing.
+                    if(
+                        (typeof(value) === 'object' && Object.keys(value).length === 0) || 
+                        (Array.isArray(value) && value.length === 0)
+                    ){
+                        newState[key] = null;
+                    }
+
+                    // Cases for cycles compound operation
+                    else if(key === 'cycles'){
+                        newState['cycles'] = {...newState['cycles'], val: value};
+                    }
+
+                    else if(key === 'cyclesOperation'){
+                        newState['cycles'] = {...newState['cycles'], op: value};
+                    }
+
+                    else{
+                        newState[key] = action.data[key];
+                    }
+                    
                 }
             });
             return {...state, ...newState};
@@ -64,10 +88,12 @@ export const FilterContextProvider = ({ children }) => {
         const payload = {};
         validKeys.forEach(key => {
             const filterVal = state[key];
-            if(filterVal) payload[key] = filterVal;
+            if(filterVal){
+                payload[key] = filterVal;
+            }
         });
 
-        return payload;
+        return JSON.stringify(payload);
     };
 
     return(

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Collapse} from 'react-collapse';
 import Select from 'react-select';
 import GeneralSection from './GeneralSection';
+import FilterContext from '../../contexts/filter-context/FilterContext';
 
 
 const Filter = () => {
@@ -19,15 +20,27 @@ const Filter = () => {
 
     const [isGenOptionsOpened, setIsGenOptionsOpened] = React.useState(true)
 
+    const {
+        actions: {
+            createPayload
+        }
+    } = React.useContext(FilterContext);
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+        console.log(createPayload());
+    }
 
     return(
-        //<FilterContextProvider>
+
             <div>
+                <button onClick={handleSubmit}>Test Submit</button>
                 <form>
                     <GeneralSection/>
                 </form>
             </div>
-        //</FilterContextProvider>
+
     );
 
 };
