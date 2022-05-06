@@ -183,7 +183,6 @@ const makeOperandQuery = (operandQueryString) => {
 
 const getOpcodesByParams = async(req, res) => {
     // get all opcodes from the database that match a specific conjunction of parameters
-    // TODO: Investigate feasibility of passing a formula in conjunctive normal form
     const client = new MongoClient(MONGO_URI, options);
     try{
         // simple parmeters in our DB consist of a literal value. These are
@@ -211,6 +210,14 @@ const getOpcodesByParams = async(req, res) => {
             }
 
             else if(key === 'flags'){
+                /*
+                    flags : {
+                        Z: ...
+                        N: ...
+                        H: ...
+                        C: ...
+                    }
+                */
                 queryString = {...queryString, $and: [makeFlagQuery(req.body.flags)]}
             }
 
