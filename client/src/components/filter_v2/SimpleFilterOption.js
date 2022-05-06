@@ -32,7 +32,7 @@ export const SimpleFilterOption = ({ index, searchType }) => {
         switch(searchType){
             case 'category': {
                 setLabel('Operation Category');
-                setOptions(null);
+
                 inputRef.current.clearValue();
                 setOptions(categoryOptions);
                 console.log(options);
@@ -41,7 +41,6 @@ export const SimpleFilterOption = ({ index, searchType }) => {
 
             case 'mnemonic':{
                 setLabel('Mnemonic');
-                setOptions(null);
                 inputRef.current.clearValue();
                 setOptions(mnemonicOptions);
                 break;
@@ -49,7 +48,6 @@ export const SimpleFilterOption = ({ index, searchType }) => {
 
             case 'immediate': {
                 setLabel('Immediate');
-                setOptions(null);
                 inputRef.current.clearValue();
                 setOptions(immediateOptions);
                 break;

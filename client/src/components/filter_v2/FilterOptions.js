@@ -23,20 +23,30 @@ const FilterOptions = () => {
     }
 
     return(
-        <div>
-            <div>
+        <Container>
+            <ButtonContainer>
                 <button onClick={handleAddRow}>+</button>
                 <button onClick={handleRemoveRow}>-</button>
                 
-            </div>
+            </ButtonContainer>
             <div>
                 {filterCriteria.map(elt => <FilterOption isFirst={false}/>)}
                 <FilterOption isFirst={false}/>
             </div>
             
-        </div>
+        </Container>
 
     );
 };
+
+const Container = styled.div`
+    display: flex;
+    align-items: flex-end;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
 export default FilterOptions;
