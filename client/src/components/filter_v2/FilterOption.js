@@ -86,7 +86,7 @@ export const FilterOption = ({isFirst, index, data}) => {
 
             {
                 (currentSearchField === 'operand') && 
-                <OperandFilterOptions index={index} />
+                <OperandFilterOptions index={index} selectedValues={currentValue}/>
             }
 
         </InputContainer>
