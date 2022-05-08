@@ -76,7 +76,7 @@ export const FilterOption = ({isFirst, index, data}) => {
 
             {
                 (currentSearchField === 'cycles') &&
-                <CyclesFilterOption index={index}/>
+                <CyclesFilterOption index={index} selectedValues={currentValue}/>
             }
 
             {
