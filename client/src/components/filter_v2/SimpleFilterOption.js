@@ -1,12 +1,13 @@
 import React from 'react';
 import Select from 'react-select'
-import styled from 'styled-components';
+import clone from 'just-clone'
 import FilterContext from '../../contexts/filter-v2-context/FilterContext';
 
 import {
     categoryOptions,
     mnemonicOptions,
     immediateOptions,
+    bytesOptions,
 } from './FilterConstants';
 
 import {
@@ -16,6 +17,7 @@ import {
 
 export const SimpleFilterOption = ({ index, searchType }) => {
     const {
+        filterCriteria,
         actions: {
             addRow,
             deleteRow,
@@ -41,7 +43,7 @@ export const SimpleFilterOption = ({ index, searchType }) => {
 
             case 'mnemonic':{
                 setLabel('Mnemonic');
-                inputRef.current.clearValue();
+                // inputRef.current.clearValue();
                 setOptions(mnemonicOptions);
                 break;
             }
@@ -55,8 +57,15 @@ export const SimpleFilterOption = ({ index, searchType }) => {
 
             case 'hexCode': {
                 setLabel('Hex Code');
-                inputRef.current.clearValue();
+                // inputRef.current.clearValue();
                 setOptions(null);
+                break;
+            }
+
+            case 'bytes': {
+                setLabel('Bytes');
+                inputRef.current.clearValue();
+                setOptions(bytesOptions);
                 break;
             }
 
@@ -68,9 +77,19 @@ export const SimpleFilterOption = ({ index, searchType }) => {
 
     }, [searchType]);
 
+
     const handleChange = (evt) => {
-        // evt.stopPropagation();
-        console.log(evt);
+        if(evt){
+            console.log('evt ', evt);
+            let rowData = {};
+            if(filterCriteria[index]){
+                rowData = clone(filterCriteria[index]);
+            };
+
+            // Set the parameter triggered by this event, and update the row in the context
+            rowData[searchType] = evt.value;
+            addRow({rowNum: index, filter: rowData});
+        }
     }
 
     return(
@@ -78,7 +97,7 @@ export const SimpleFilterOption = ({ index, searchType }) => {
             <InputWrapper>
                 <label htmlFor={`simple-input-${searchType}`}>{label}</label>
                 {
-                    searchType === 'mnemonic'?
+                    searchType === 'hexCode'?
                         <input id={`simple-input-${searchType}`} name={`simple-input-${searchType}`} type='text' ref={inputRef} onInput={handleChange}/>
                         :<Select id={`simple-input-${searchType}`} name={`simple-input-${searchType}`} ref={inputRef} options={options} onChange={handleChange}/>
                 }
