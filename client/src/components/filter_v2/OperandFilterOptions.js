@@ -32,7 +32,7 @@ export const OperandFilterOptions = ({index}) => {
     // const [opIdx, setOpIdx] = React.useState('');
 
     const handleChange = (evt, param) => {
-        console.log(evt);
+        // console.log(evt);
         let rowData = {};
         if(filterCriteria[index]){
             rowData = clone(filterCriteria[index]);

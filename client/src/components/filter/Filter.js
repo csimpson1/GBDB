@@ -29,7 +29,7 @@ const Filter = () => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         evt.stopPropagation();
-        console.log(createPayload());
+        // console.log(createPayload());
     }
 
     return(

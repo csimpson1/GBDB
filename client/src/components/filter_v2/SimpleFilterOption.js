@@ -15,7 +15,7 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const SimpleFilterOption = ({ index, searchType }) => {
+export const SimpleFilterOption = ({ index, searchType, selectedVal }) => {
     const {
         filterCriteria,
         actions: {
@@ -26,38 +26,62 @@ export const SimpleFilterOption = ({ index, searchType }) => {
 
     const [label, setLabel] = React.useState('');
     const [options, setOptions] = React.useState({});
+    /*
+    When we are setting values on a row that represents a previous filter choice for the user, 
+    we do not want to trigger the onChange event, since that adds another row to the context. 
+    This flag tracks if we are currenly firing change events or not.
+    */
+    const [addingRows, setAddingRows] = React.useState(true);
 
     const inputRef = React.useRef(null);
 
+    const setUserSelection = (choiceArray, selectedVal) => {
+        // If this component represents a filter choice the user had already made,
+        // set the value they had chosen
+        if(selectedVal){
+            setAddingRows(false);
+            const userSelectedOption = choiceArray.filter(elt => elt.value === selectedVal);
+            inputRef.current.setValue(userSelectedOption, 'select-value');
+            setAddingRows(true);
+        }
+        
+    }
+
     React.useEffect(() => {
-        console.log(searchType);
+        // debugger;
+        // console.log('searchType',  searchType);
         switch(searchType){
             case 'category': {
                 setLabel('Operation Category');
 
                 inputRef.current.clearValue();
-                setOptions(categoryOptions);
-                console.log(options);
+                const opts = categoryOptions;
+                setOptions(opts);
+                setUserSelection(opts, selectedVal);
                 break;
             }
 
             case 'mnemonic':{
                 setLabel('Mnemonic');
                 // inputRef.current.clearValue();
-                setOptions(mnemonicOptions);
+                const opts = mnemonicOptions;
+                setOptions(opts);
+                setUserSelection(opts, selectedVal);
                 break;
             }
 
             case 'immediate': {
                 setLabel('Immediate');
                 inputRef.current.clearValue();
-                setOptions(immediateOptions);
+                const opts = immediateOptions
+                setOptions(opts);
+                setUserSelection(opts, selectedVal);
                 break;
             }
 
             case 'hexCode': {
                 setLabel('Hex Code');
-                // inputRef.current.clearValue();
+                inputRef.current.clearValue();
                 setOptions(null);
                 break;
             }
@@ -65,7 +89,9 @@ export const SimpleFilterOption = ({ index, searchType }) => {
             case 'bytes': {
                 setLabel('Bytes');
                 inputRef.current.clearValue();
-                setOptions(bytesOptions);
+                const opts = bytesOptions;
+                setOptions(opts);
+                setUserSelection(opts, selectedVal);
                 break;
             }
 
@@ -73,13 +99,14 @@ export const SimpleFilterOption = ({ index, searchType }) => {
                 break;
         };
 
-        console.log(options);
-
-    }, [searchType]);
+    }, [searchType, selectedVal]);
 
 
     const handleChange = (evt) => {
-        if(evt){
+        // debugger;
+        // console.log('simple filter option index check ', filterCriteria.length === index);
+        if(evt && filterCriteria.length === index){
+            console.log('inputChangeEvent');
             console.log('evt ', evt);
             let rowData = {};
             if(filterCriteria[index]){

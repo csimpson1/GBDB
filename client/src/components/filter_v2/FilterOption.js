@@ -28,10 +28,11 @@ export const FilterOption = ({isFirst, index, data}) => {
 
     // states
     const [currentSearchField, setCurrentSearchField] = React.useState('');
+    const [currentValue, setCurrentValue] = React.useState(null);
 
     // helper functions
     const handleSearchFieldChange = (evt) => {
-        console.log('changing search field event to ', evt);
+        // console.log('changing search field event to ', evt);
         setCurrentSearchField(evt.value);
     }
 
@@ -41,6 +42,9 @@ export const FilterOption = ({isFirst, index, data}) => {
             const valueToSet = searchTypeOptions.filter(elt => elt.value === key);
             searchField.current.setValue(valueToSet, 'select-option');
             setCurrentSearchField(key);
+
+            const selectedValue = data[key];
+            setCurrentValue(selectedValue);
         }
     }, [data]);
     
@@ -67,19 +71,8 @@ export const FilterOption = ({isFirst, index, data}) => {
             </InputGroupWrapper>
             {
                 (['category', 'mnemonic', 'immediate', 'hexCode', 'bytes'].includes(currentSearchField)) &&
-                <SimpleFilterOption index={index} searchType={currentSearchField}/>
+                <SimpleFilterOption index={index} searchType={currentSearchField} selectedVal={currentValue}/>
             }
-
-            {/* {
-                (currentSearchField === 'bytes') &&
-                <InputGroupWrapper>
-                    <InputWrapper>
-                        <label htmlFor='bytes'>Total Bytes</label>
-                        <Select id='bytes' name='bytes' ref={bytes} options={bytesOptions} isMulti={true} />
-                    </InputWrapper>
-                    
-                </InputGroupWrapper>
-            } */}
 
             {
                 (currentSearchField === 'cycles') &&
@@ -88,7 +81,7 @@ export const FilterOption = ({isFirst, index, data}) => {
 
             {
                 (currentSearchField === 'flags') &&
-                <FlagsFilterOption index={index}/>
+                <FlagsFilterOption index={index} selectedValues={currentValue}/>
             }
 
             {

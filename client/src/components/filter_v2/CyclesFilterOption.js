@@ -22,7 +22,7 @@ export const CyclesFilterOption = ({index}) => {
     } = React.useContext(FilterContext);
 
     const handleChange = (evt) => {
-        console.log(evt);
+        // console.log(evt);
     };
 
     const inputRef = React.useRef(null);

@@ -15,21 +15,24 @@ const reducer = (state, action) => {
             // we want to add a row, either to a specific index or to a
             // action = {type: string, rowNum: int, filter: {...} }
             console.log('data ', data.rowNum, ' ', data.filter);
+            debugger;
             if(data.rowNum &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){
                 newState.filterCriteria = newState.filterCriteria.splice(data.rowNum, 0, data.filter);
                 console.log('newState ', newState);
                 return newState;
             }
 
-            else if(data.rowNum && !(0 <= data.rowNum && data.rowNum < newState.filterCriteria.length)){
-                return state;
-            }
-
-            else{
+            else if((data.rowNum &&  0 <= data.rowNum && data.rowNum === newState.filterCriteria.length) || !data.rowNum){
                 newState.filterCriteria.push(data.filter);
                 console.log('newState ', newState)
                 return newState
             }
+
+            else{
+                return state;
+            }
+
+
         }
 
         case 'delete-row':{

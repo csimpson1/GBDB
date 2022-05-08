@@ -63,11 +63,11 @@ const GeneralSection = ({submit}) => {
     const handleClick = (evt) => {
         evt.preventDefault();
         evt.stopPropagation();
-        console.log(categories.current);
-        console.log(categories.current.getValue());
-        console.log(hexCode.current.value);
-        console.log(bytes.current.getValue());
-        console.log(cycles.current.getValue());
+        // console.log(categories.current);
+        // console.log(categories.current.getValue());
+        // console.log(hexCode.current.value);
+        // console.log(bytes.current.getValue());
+        // console.log(cycles.current.getValue());
     }
 
     const updateSearchVal = (evt, key,) => {
