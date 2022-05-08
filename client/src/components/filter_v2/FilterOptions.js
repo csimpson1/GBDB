@@ -30,8 +30,8 @@ const FilterOptions = () => {
                 
             </ButtonContainer>
             <div>
-                {filterCriteria.map(elt => <FilterOption isFirst={false}/>)}
-                <FilterOption isFirst={false}/>
+                {filterCriteria.map((elt, idx) => <FilterOption index={idx} data={elt} isFirst={false}/>)}
+                <FilterOption index={filterCriteria.length} isFirst={false}/>
             </div>
             
         </Container>

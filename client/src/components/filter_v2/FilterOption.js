@@ -3,44 +3,27 @@ import Select from 'react-select';
 import styled from 'styled-components';
 
 import SimpleFilterOption from './SimpleFilterOption';
+import CyclesFilterOption from './CyclesFilterOption';
+import FlagsFilterOption from './FlagsFilterOption';
+import OperandFilterOptions from './OperandFilterOptions';
 
 import {
     logicalOptions,
     searchTypeOptions,
-    mnemonicOptions,
-    categoryOptions,
     bytesOptions,
-    cyclesOptions,
-    operationOptions,
-    flagOptions,
-    operandNameOptions,
-    operandBytesOptions,
-    immediateOptions,
-    operandIndexOptions
-} from './FilterConstants';
 
-export const FilterOption = ({isFirst, index}) => {
+} from './FilterConstants';
+import reactSelect from 'react-select';
+
+export const FilterOption = ({isFirst, index, data}) => {
     
 
 
     // Refs
     const logicOperator = React.useRef(null);
     const searchField = React.useRef(null);
-    const category = React.useRef(null);
-    const mnemonic = React.useRef(null);
     const bytes = React.useRef(null);
-    const immediate = React.useRef(null);
-    const hexCode = React.useRef(null);
-    const cyclesNum = React.useRef(null);
-    const cyclesOperation = React.useRef(null);
-    const zFlag = React.useRef(null);
-    const nFlag = React.useRef(null);
-    const hFlag = React.useRef(null);
-    const cFlag = React.useRef(null);
-    const operandName = React.useRef(null);
-    const operandBytes = React.useRef(null);
-    const operandImmediate = React.useRef(null);
-    const operandIndex= React.useRef(null);
+
 
 
     // states
@@ -48,8 +31,19 @@ export const FilterOption = ({isFirst, index}) => {
 
     // helper functions
     const handleSearchFieldChange = (evt) => {
+        console.log('changing search field event to ', evt);
         setCurrentSearchField(evt.value);
     }
+
+    React.useEffect(() => {
+        if(data){
+            const key = Object.keys(data)[0];
+            const valueToSet = searchTypeOptions.filter(elt => elt.value === key);
+            searchField.current.setValue(valueToSet, 'select-option');
+            setCurrentSearchField(key);
+        }
+    }, [data]);
+    
 
 
 
@@ -72,11 +66,11 @@ export const FilterOption = ({isFirst, index}) => {
                 </InputWrapper>
             </InputGroupWrapper>
             {
-                (['category', 'mnemonic', 'immediate', 'hexcode'].includes(currentSearchField)) &&
+                (['category', 'mnemonic', 'immediate', 'hexCode', 'bytes'].includes(currentSearchField)) &&
                 <SimpleFilterOption index={index} searchType={currentSearchField}/>
             }
 
-            {
+            {/* {
                 (currentSearchField === 'bytes') &&
                 <InputGroupWrapper>
                     <InputWrapper>
@@ -85,67 +79,21 @@ export const FilterOption = ({isFirst, index}) => {
                     </InputWrapper>
                     
                 </InputGroupWrapper>
-            }
+            } */}
 
             {
                 (currentSearchField === 'cycles') &&
-                <InputGroupWrapper>
-                    <InputWrapper>
-                        <label htmlFor="cycles-op">Operation</label>
-                        <Select label="cycles-op" id="cycles-op" ref={cyclesOperation} options={operationOptions}/>
-                    </InputWrapper>
-                    <InputWrapper>
-                        <label htmlFor='cycles-num'># of Cycles</label>
-                        <Select id='cycles-num' name='cycles-num' ref={cyclesNum} options={cyclesOptions}/>
-                    </InputWrapper>
-                    
-                    
-                </InputGroupWrapper>
+                <CyclesFilterOption index={index}/>
             }
 
             {
                 (currentSearchField === 'flags') &&
-                <InputGroupWrapper>
-                    <InputWrapper>
-                        <label htmlFor='zflag'>Z</label>
-                        <Select id='zflag' name='zflag' ref={zFlag} options={[...flagOptions, {value:'Z', label:'Z'}]}/>
-                    </InputWrapper>
-                    <InputWrapper>
-                        <label htmlFor='nflag'>N</label>
-                        <Select id='nflag' name='nflag' ref={nFlag} options={[...flagOptions, {value:'N', label:'N'}]}/>
-                    </InputWrapper>
-                    <InputWrapper>
-                        <label htmlFor='hflag'>H</label>
-                        <Select id='hflag' name='hflag' ref={hFlag} options={[...flagOptions, {value:'H', label:'H'}]}/>
-                    </InputWrapper>
-                    <InputWrapper>
-                        <label htmlFor='cflag'>C</label>
-                        <Select id='cflag' name='cflag' ref={cFlag} options={[...flagOptions, {value:'C', label:'C'}]}/>
-                    </InputWrapper>
-                </InputGroupWrapper>
+                <FlagsFilterOption index={index}/>
             }
 
             {
                 (currentSearchField === 'operand') && 
-                    <InputGroupWrapper>
-                        <InputWrapper>
-                            <label htmlFor="operand-name">Operand Name</label>
-                            <Select id='operand-name' name='operand-name' options={operandNameOptions} ref={operandName}/>
-                        </InputWrapper>
-                        <InputWrapper>
-                            <label htmlFor="operand-bytes"># of Bytes</label>
-                            <Select id='operand-bytes' name='operand-bytes' options={operandBytesOptions} ref={operandBytes}/>
-                        </InputWrapper>
-                        <InputWrapper>
-                            <label htmlFor="operand-immediate">Immediate</label>
-                            <Select id='operand-immediate' name='operand-immediate' options={immediateOptions} ref={operandImmediate}/>
-                        </InputWrapper>
-                        <InputWrapper>
-                            <label htmlFor="operand-index">Index</label>
-                            <Select id='operand-index' name='operand-index' options={operandIndexOptions} ref={operandIndex}/>
-                        </InputWrapper>
-                    </InputGroupWrapper>
-                
+                <OperandFilterOptions index={index} />
             }
 
         </InputContainer>
