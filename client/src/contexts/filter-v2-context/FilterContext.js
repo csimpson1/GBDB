@@ -15,7 +15,7 @@ const reducer = (state, action) => {
             // we want to add a row, either to a specific index or to a
             // action = {type: string, rowNum: int, filter: {...} }
             console.log('data ', data.rowNum, ' ', data.filter);
-            debugger;
+            // debugger;
             if(data.rowNum &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){
                 newState.filterCriteria = newState.filterCriteria.splice(data.rowNum, 0, data.filter);
                 console.log('newState ', newState);
@@ -75,11 +75,23 @@ export const FilterProvider = ({children}) => {
         let payload = {};
         state.filterCriteria.forEach(criteria => {
             // criteria has the form  {currentSearchField, data}
-            payload[criteria.currentSearchField] = criteria.data;
+            console.log('criteria ', criteria);
+            Object.keys(criteria).forEach(key => {
+                //payload[criteria.currentSearchField] = criteria.data;
+                if(key === 'operand'){
+                    // operand expects an array, so we coalesse all instances here
+                    payload[key]? (payload[key].append(criteria[key])):(payload[key] = [criteria[key]]);
+                }
+                else{
+                    payload[key] = criteria[key];
+                }
+                
+            })
+            
         })
 
         console.log(payload);
-        return payload;
+        return JSON.stringify(payload);
     };
 
     return(

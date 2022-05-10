@@ -84,6 +84,8 @@ const sixteenBitLdTheme =  {
         ){
             isEightB = false;
         }
+
+        return isEightB;
     }
 
     else if(['POP', 'PUSH'].includes(mnemonic)){

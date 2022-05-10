@@ -100,6 +100,8 @@ export const isEightBit = (mnemonic, operands) => {
         ){
             isEightB = false;
         }
+
+        return isEightB;
     }
 
     else if(['POP', 'PUSH'].includes(mnemonic)){

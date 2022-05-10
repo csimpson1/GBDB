@@ -41,7 +41,7 @@ export const CyclesFilterOption = ({index, selectedValues}) => {
         evt.preventDefault();
         if(op || cycles){
             let payload = {};
-            if(op) payload.operation = op;
+            if(op) payload.op = op;
             if(cycles) payload.val = cycles;
             addRow({rowNum: index, filter:{cycles:payload}});
         }
@@ -53,9 +53,9 @@ export const CyclesFilterOption = ({index, selectedValues}) => {
     React.useEffect(() => {
 
         if(selectedValues){
-            if(selectedValues.operation){
-                setOp(selectedValues.operation);
-                cyclesOperation.current.setValue(operationOptions.filter(elt => elt.value === selectedValues.operation));
+            if(selectedValues.op){
+                setOp(selectedValues.op);
+                cyclesOperation.current.setValue(operationOptions.filter(elt => elt.value === selectedValues.op));
             }
     
             if(selectedValues.val){

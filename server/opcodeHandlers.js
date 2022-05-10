@@ -172,6 +172,7 @@ const makeOperandQuery = (operandQueryString) => {
     }
 
     else if(!Array.isArray(operandQueryString)){
+        console.log(operandQueryString);
         throw new Error('Need an array of operands to search!');
     }
 
@@ -191,7 +192,7 @@ const getOpcodesByParams = async(req, res) => {
         // complex parameters in our DB consist of some kind of data structure. these are
         // cycles, operands, flags
         
-
+        console.log(req.body);
         let queryString = {};
         Object.keys(req.body).forEach(key => {
             // for simple parameters, we just look to see if we are passing multiple values to search for, and
@@ -221,8 +222,8 @@ const getOpcodesByParams = async(req, res) => {
                 queryString = {...queryString, $and: [makeFlagQuery(req.body.flags)]}
             }
 
-            else if(key === 'operands'){
-                queryString = {...queryString, $and: makeOperandQuery(req.body.operands)}
+            else if(key === 'operand'){
+                queryString = {...queryString, $and: makeOperandQuery(req.body.operand)}
             }
 
         })

@@ -8,7 +8,8 @@ const FilterOptions = () => {
         filterCriteria,
         actions:{
             addRow,
-            removeRow
+            removeRow,
+            createPayload,
         }
     } = React.useContext(FilterContext);
 
@@ -22,6 +23,11 @@ const FilterOptions = () => {
         removeRow({rowNum: (filterCriteria.length - 1)})
     }
 
+    const handleTestPayload = (evt) => {
+        evt.preventDefault();
+        console.log(createPayload());
+    }
+
     return(
         <Container>
             <ButtonContainer>
@@ -33,6 +39,8 @@ const FilterOptions = () => {
                 {filterCriteria.map((elt, idx) => <FilterOption index={idx} data={elt} isFirst={false}/>)}
                 <FilterOption index={filterCriteria.length} isFirst={false}/>
             </div>
+        
+            <button onClick={handleTestPayload}>test payload</button>
             
         </Container>
 
