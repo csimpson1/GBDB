@@ -38,7 +38,6 @@ const reducer = (state, action) => {
         case 'delete-row':{
             // we want to delete a row at a specific index
             console.log('action: ', data);
-            console.log(data.rowNum );
             console.log(0 <= data.rowNum);
             console.log(data.rowNum < newState.filterCriteria.length);
             if(typeof data.rowNum === 'number' &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){

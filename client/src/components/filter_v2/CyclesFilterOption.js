@@ -13,7 +13,7 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const CyclesFilterOption = ({index, selectedValues}) => {
+export const CyclesFilterOption = ({index, selectedValues, setRowPayload}) => {
     
     const[op, setOp] = React.useState(null);
     const[cycles, setCycles] = React.useState(null);
@@ -45,7 +45,6 @@ export const CyclesFilterOption = ({index, selectedValues}) => {
             if(cycles) payload.val = cycles;
             addRow({rowNum: index, filter:{cycles:payload}});
         }
-
     }
 
 

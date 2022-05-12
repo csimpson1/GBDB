@@ -15,7 +15,7 @@ import {
 } from './FilterConstants';
 import reactSelect from 'react-select';
 
-export const FilterOption = ({isFirst, index, data}) => {
+export const FilterOption = ({isFirst, index, data, setRowPayload}) => {
     
 
 
@@ -66,27 +66,27 @@ export const FilterOption = ({isFirst, index, data}) => {
             <InputGroupWrapper>
                 <InputWrapper>
                     <label htmlFor='search-field'>Search Field</label>
-                    <Select ref={searchField} options={searchTypeOptions} onChange={handleSearchFieldChange}/>
+                    <Select ref={searchField} options={searchTypeOptions} onChange={handleSearchFieldChange} />
                 </InputWrapper>
             </InputGroupWrapper>
             {
                 (['category', 'mnemonic', 'immediate', 'hexCode', 'bytes'].includes(currentSearchField)) &&
-                <SimpleFilterOption index={index} searchType={currentSearchField} selectedVal={currentValue}/>
+                <SimpleFilterOption index={index} searchType={currentSearchField} selectedVal={currentValue} setRowPayload={setRowPayload}/>
             }
 
             {
                 (currentSearchField === 'cycles') &&
-                <CyclesFilterOption index={index} selectedValues={currentValue}/>
+                <CyclesFilterOption index={index} selectedValues={currentValue} setRowPayload={setRowPayload}/>
             }
 
             {
                 (currentSearchField === 'flags') &&
-                <FlagsFilterOption index={index} selectedValues={currentValue}/>
+                <FlagsFilterOption index={index} selectedValues={currentValue} setRowPayload={setRowPayload}/>
             }
 
             {
                 (currentSearchField === 'operand') && 
-                <OperandFilterOptions index={index} selectedValues={currentValue}/>
+                <OperandFilterOptions index={index} selectedValues={currentValue} setRowPayload={setRowPayload}/>
             }
 
         </InputContainer>

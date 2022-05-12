@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import FilterOption from "./FilterOption";
 import FilterContext from "../../contexts/filter-v2-context/FilterContext";
+import NewRow from "./NewRow";
+import ExistingRow from "./ExistingRow";
 
 const FilterOptions = () => {
     const {
@@ -30,14 +32,9 @@ const FilterOptions = () => {
 
     return(
         <Container>
-            <ButtonContainer>
-                <button onClick={handleAddRow}>+</button>
-                <button onClick={handleRemoveRow}>-</button>
-                
-            </ButtonContainer>
             <div>
-                {filterCriteria.map((elt, idx) => <FilterOption index={idx} data={elt} isFirst={false}/>)}
-                <FilterOption index={filterCriteria.length} isFirst={false}/>
+                {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false}/>)}
+                <NewRow index={filterCriteria.length}/>
             </div>
         
             <button onClick={handleTestPayload}>test payload</button>

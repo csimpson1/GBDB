@@ -16,7 +16,7 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const OperandFilterOptions = ({index, selectedValues}) => {
+export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => {
 
     const {
         filterCriteria,

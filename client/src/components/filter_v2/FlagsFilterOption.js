@@ -12,7 +12,7 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const FlagsFilterOption = ({index, selectedValues}) => {
+export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
 
     const zFlag = React.useRef(null);
     const nFlag = React.useRef(null);

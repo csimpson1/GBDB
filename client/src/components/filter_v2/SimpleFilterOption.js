@@ -15,7 +15,7 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const SimpleFilterOption = ({ index, searchType, selectedVal }) => {
+export const SimpleFilterOption = ({ index, searchType, selectedVal, setRowPayload }) => {
     const {
         filterCriteria,
         actions: {
@@ -63,7 +63,7 @@ export const SimpleFilterOption = ({ index, searchType, selectedVal }) => {
 
             case 'mnemonic':{
                 setLabel('Mnemonic');
-                // inputRef.current.clearValue();
+                inputRef.current.clearValue();
                 const opts = mnemonicOptions;
                 setOptions(opts);
                 setUserSelection(opts, selectedVal);
@@ -81,7 +81,6 @@ export const SimpleFilterOption = ({ index, searchType, selectedVal }) => {
 
             case 'hexCode': {
                 setLabel('Hex Code');
-                inputRef.current.clearValue();
                 setOptions(null);
                 break;
             }
@@ -105,18 +104,21 @@ export const SimpleFilterOption = ({ index, searchType, selectedVal }) => {
     const handleChange = (evt) => {
         // debugger;
         // console.log('simple filter option index check ', filterCriteria.length === index);
+        let rowData = {};
         if(evt && filterCriteria.length === index){
             console.log('inputChangeEvent');
             console.log('evt ', evt);
-            let rowData = {};
+            
             if(filterCriteria[index]){
                 rowData = clone(filterCriteria[index]);
             };
 
             // Set the parameter triggered by this event, and update the row in the context
             rowData[searchType] = evt.value;
-            addRow({rowNum: index, filter: rowData});
+            // addRow({rowNum: index, filter: rowData});
+            
         }
+        setRowPayload({rowNum: index, filter: rowData});
     }
 
     return(
