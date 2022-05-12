@@ -37,15 +37,14 @@ export const CyclesFilterOption = ({index, selectedValues, setRowPayload}) => {
         setOp(evt.value);
     }
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
+    React.useEffect(() => {
         if(op || cycles){
             let payload = {};
             if(op) payload.op = op;
             if(cycles) payload.val = cycles;
-            addRow({rowNum: index, filter:{cycles:payload}});
+            setRowPayload({rowNum: index, filter:{cycles:payload}});
         }
-    }
+    }, [op, cycles])
 
 
 
@@ -75,7 +74,6 @@ export const CyclesFilterOption = ({index, selectedValues, setRowPayload}) => {
                 <label htmlFor={`simple-input-cycles`}>Cycles</label>
                 <Select id={`simple-input-cycles`} name={`simple-input-cycles`} ref={inputRef} options={cyclesOptions} onChange={handleCycleChange}/>
             </InputWrapper>
-            <button onClick={handleSubmit}>Submit Cycles</button>
         </InputGroupWrapper>
     )
 }
