@@ -41,10 +41,8 @@ export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
     const handleHChange = (evt) => handleChange(evt, setH); 
     const handleCChange = (evt) => handleChange(evt, setC);  
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-        
+
+    React.useEffect(() => {
         if(z || n || h || z){
             let payload = {};
             if(z) payload['Z'] = z;
@@ -52,10 +50,9 @@ export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
             if(h) payload['H'] = h;
             if(c) payload['C'] = c;
 
-            addRow({rowNum: index, filter: {flags: payload}});
+            setRowPayload({rowNum: index, filter: {flags: payload}});
         }
-        
-    }
+    }, [z, n, h, z]);
 
     React.useEffect(() => {
         if(selectedValues && Object.keys(selectedValues).length > 0){
@@ -99,7 +96,6 @@ export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
                 <label htmlFor='cflag'>C</label>
                 <Select id='cflag' name='cflag' ref={cFlag} options={flagOptions.filter(elt => (elt.value === 'C' || ['0','1', '-'].includes(elt.value)))} onChange={handleCChange}/>
             </InputWrapper>
-            <button onClick={handleSubmit}>Submit Flag Values</button>
         </InputGroupWrapper>
     )
 }
