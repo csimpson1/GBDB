@@ -59,8 +59,9 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => 
         setOpIdx(evt.value);
     };
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
+
+
+    React.useEffect(() => {
         if(opName||opBytes||opImm||opIdx){
             let payload={};
             if(opName) payload.name = opName;
@@ -68,9 +69,9 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => 
             if(opImm) payload.immediate = opImm;
             if(opIdx) payload.index = opIdx;
 
-            addRow({rowNum: index, filter:{operand:payload}});
+            setRowPayload({rowNum: index, filter:{operand:payload}});
         }
-    }
+    }, [opName, opBytes, opImm, opIdx]);
 
 
     const operandName = React.useRef(null);
@@ -122,7 +123,6 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => 
                 <label htmlFor="operand-index">Index</label>
                 <Select id='operand-index' name='operand-index' options={operandIndexOptions} ref={operandIndex} onChange={handleIdxChange}/>
             </InputWrapper>
-            <button onClick={handleSubmit}>Submit Operand Options</button>
         </InputGroupWrapper>
     )
 };
