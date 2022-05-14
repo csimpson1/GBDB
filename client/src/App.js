@@ -9,6 +9,7 @@ import OpcodeGrid from "./components/opcodeGrid/OpcodeGrid";
 import FilterOption from "./components/filter_v2/FilterOption";
 import {FilterProvider} from "./contexts/filter-v2-context/FilterContext";
 import FilterOptions from "./components/filter_v2/FilterOptions";
+import { GridContainer } from "./components/opcodeGrid/GridContainer";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
               <FilterOptions/>
             </FilterProvider>
               <Routes>
-                <Route path="/" element={<OpcodeGrid/>}/>
+                <Route path="/" element={<GridContainer/>}/>
                 <Route path="/help"/>
                 <Route path="/ops"/>
                 <Route path="/ops/:id"/>

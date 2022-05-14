@@ -3,6 +3,8 @@ export const OpcodesContext = createContext();
 
 const initialState = {
     opcodes: [],
+    unprefixed: [],
+    prefixed: [],
     status: 'waiting'
 };
 
@@ -20,6 +22,8 @@ const reducer = (state, action) => {
                 ...state,
                 status:'idle',
                 opcodes: action.data,
+                prefixed: action.data.filter(elt => (elt.hexCode.includes('0xCB') && elt.hexCode !== '0xCB')),
+                unprefixed: action.data.filter(elt => !(elt.hexCode.includes('0xCB') && elt.hexCode !== '0xCB'))
             }
         }
 
