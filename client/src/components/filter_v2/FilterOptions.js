@@ -4,6 +4,7 @@ import FilterOption from "./FilterOption";
 import FilterContext from "../../contexts/filter-v2-context/FilterContext";
 import NewRow from "./NewRow";
 import ExistingRow from "./ExistingRow";
+import { Collapse } from 'react-collapse'; 
 
 const FilterOptions = () => {
     const {
@@ -14,6 +15,13 @@ const FilterOptions = () => {
             createPayload,
         }
     } = React.useContext(FilterContext);
+
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    const toggleOpen = (evt) => {
+        evt.preventDefault();
+        setIsOpen(!isOpen);
+    }
 
     const handleAddRow = (evt) => {
         evt.stopPropagation();
@@ -31,15 +39,17 @@ const FilterOptions = () => {
     }
 
     return(
-        <Container>
-            <div>
-                {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false}/>)}
-                <NewRow index={filterCriteria.length}/>
-            </div>
-        
-            <button onClick={handleTestPayload}>test payload</button>
-            
-        </Container>
+        <div>
+            <button onClick={toggleOpen}>Show Filters</button>
+            <Container >
+                
+                <Collapse isOpened={isOpen}>
+                    {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false}/>)}
+                    <NewRow index={filterCriteria.length}/>
+                </Collapse>
+                <button onClick={handleTestPayload}>test payload</button>
+            </Container>
+        </div>
 
     );
 };

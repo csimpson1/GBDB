@@ -10,6 +10,7 @@ import FilterOption from "./components/filter_v2/FilterOption";
 import {FilterProvider} from "./contexts/filter-v2-context/FilterContext";
 import FilterOptions from "./components/filter_v2/FilterOptions";
 import { GridContainer } from "./components/opcodeGrid/GridContainer";
+import {TestOpcodeLarge} from "./components/opcodeCard/opcodeCardLarge/TestOpcodeLarge"
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             </FilterProvider>
               <Routes>
                 <Route path="/" element={<GridContainer/>}/>
-                <Route path="/help"/>
+                <Route path="/help" element={<TestOpcodeLarge/>}/>
                 <Route path="/ops"/>
                 <Route path="/ops/:id"/>
                 <Route path="/cbops"/>
