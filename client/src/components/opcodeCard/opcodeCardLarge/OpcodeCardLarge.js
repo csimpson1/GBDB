@@ -18,11 +18,91 @@ const immText = 'An operation is considered immediate if all of its operands run
 const zText = 'The Z flag denotes whether an operation returns 0 or not.'
 const nText = 'The N flag denotes if an operation performs a subtraction or not.';
 const cText = 'The C flag denotes if an an operation caused an overflow, i.e. a carry from bit 7 to bit 8 (assuming 0 indexing of bits)';
-const hText = 'The H flag denots if an operation caused a carry from bit 3 to bit 4';
+const hText = 'The H flag denotes if an operation caused a carry from bit 3 to bit 4';
 const noChangeText = '- : The flag is unchanged by this operation.';
 const setZeroText = '0: The flag is always set to 0 by this operation.';
 const setOneText = '1: The flag is always set to 1 by this operation.';
 const setEffectText = ': The flag is set conditionally based on the outcome of the operation.';
+
+/*
+
+    switch(theme){
+        case eightBitLdTheme:{
+            return 'eightBitLd';
+        }
+
+        case sixteenBitLdTheme:{
+            return 'sixteenBitLd';
+        }
+
+        case eightBitAluTheme: {
+            return 'eightBitAlu';
+        }
+
+        case sixteenBitAluTheme: {
+            return 'sixteenBitAlu';
+        }
+
+        case jpTheme: {
+            return 'jp';
+        }
+
+        case regTheme: {
+            return 'reg';
+        }
+
+        case controlTheme: {
+            return 'control';
+        }
+
+        case defaultTheme: {
+            return 'illegal';
+        }
+
+        default:{
+            return '';
+        }
+
+*/
+const getCategoryFormatted = (category) => {
+    switch(category) {
+        case 'eightBitLd':{
+            return '8 Bit Load Operation';
+        }
+        
+        case 'sixteenBitLd':{
+            return '16 Bit Load Operation';
+        }
+
+        case 'eightBitAlu':{
+            return '8 Bit ALU Operation';
+        }
+
+        case 'sixteenBitAlu':{
+            return '16 Bit ALU Operation';
+        }
+
+        case 'jp':{
+            return 'Jump Operation';
+        }
+
+        case 'reg':{
+            return 'Register Bitwise Operation';
+        }
+
+        case 'control': {
+            return 'Control Operation';
+        }
+
+        case 'illegal': {
+            return 'Illegal Operation';
+        }
+
+        default:
+            return '';
+        
+    }
+}
 
 
 export const OpcodeCardLarge = ({
@@ -126,6 +206,19 @@ export const OpcodeCardLarge = ({
                 return '';
             }
         }
+    };
+
+    const constructName = () => {
+        let name = `${mnemonic} `;
+        if(operands.length >= 1){
+            name += `${operands[0].name} ` ;
+        }
+
+        if(operands.length >= 2){
+            name += operands[1].name;
+        }
+
+        return name;
     }
 
     const handleHexTTEnter = (evt) => handleMouseEnter(setHexTT);
@@ -184,6 +277,7 @@ export const OpcodeCardLarge = ({
                         </StyledReactTooltip>
 
                     }
+                    <div>{constructName()}</div>
                     
                     <div >
                         <a 
@@ -192,7 +286,7 @@ export const OpcodeCardLarge = ({
                         onMouseEnter={handleTTEnter}
                         onMouseLeave={handleTTExit}
                         >
-                            {category}
+                            {getCategoryFormatted(category)}
                         </a>
                     </div>
                 {/* Hex & Mnemonic */}
@@ -258,6 +352,54 @@ export const OpcodeCardLarge = ({
                 </div>
                 {/* Flags */}
                 <Row>
+                {toolTip &&
+                        <StyledReactTooltip
+                            id="zflag"
+                            place="bottom"
+                            type="warning"
+                            effect="float"
+                            multiline={true}
+                            showToolTip={false}
+                            getContent={() => computeFlagText(flags.Z)}
+                        >
+                        </StyledReactTooltip>
+                    }
+                    {toolTip &&
+                        <StyledReactTooltip
+                            id="nflag"
+                            place="bottom"
+                            type="warning"
+                            effect="float"
+                            multiline={true}
+                            showToolTip={false}
+                            getContent={() => computeFlagText(flags.N)}
+                        >
+                        </StyledReactTooltip>
+                    }
+                    {toolTip &&
+                        <StyledReactTooltip
+                            id="hflag"
+                            place="bottom"
+                            type="warning"
+                            effect="float"
+                            multiline={true}
+                            showToolTip={false}
+                            getContent={() => computeFlagText(flags.H)}
+                        >
+                        </StyledReactTooltip>
+                    }
+                    {toolTip &&
+                        <StyledReactTooltip
+                            id="cflag"
+                            place="bottom"
+                            type="warning"
+                            effect="float"
+                            multiline={true}
+                            showToolTip={false}
+                            getContent={() => computeFlagText(flags.H)}
+                        >
+                        </StyledReactTooltip>
+                    }
                     <Item>
                         <a
                             data-tip={zText} 
@@ -267,6 +409,10 @@ export const OpcodeCardLarge = ({
                         >Z</a>
                         <div>
                             <a
+                                data-tip
+                                data-for='zflag'
+                                onMouseEnter={handleTTEnter}
+                                onMouseLeave={handleTTExit}
                             >{flags.Z}</a>
                         </div>
                         
@@ -279,7 +425,12 @@ export const OpcodeCardLarge = ({
                             onMouseLeave={handleTTExit}
                         >N</a>
                         <div>
-                            <a>
+                            <a
+                            data-tip
+                            data-for='nflag'
+                            onMouseEnter={handleTTEnter}
+                            onMouseLeave={handleTTExit}
+                            >
                                 {flags.N}
                             </a>
                             
@@ -293,7 +444,12 @@ export const OpcodeCardLarge = ({
                             onMouseLeave={handleTTExit}
                         >H</a>
                         <div>
-                            <a>
+                            <a
+                            data-tip
+                            data-for='hflag'
+                            onMouseEnter={handleTTEnter}
+                            onMouseLeave={handleTTExit}
+                            >
                                 {flags.H}
                             </a>
                             
@@ -307,7 +463,11 @@ export const OpcodeCardLarge = ({
                             onMouseLeave={handleTTExit}
                         >C</a>
                         <div>
-                            <a>
+                            <a
+                                data-tip
+                                data-for='cflag'
+                                
+                            >
                                 {flags.C}
                             </a>
                             
