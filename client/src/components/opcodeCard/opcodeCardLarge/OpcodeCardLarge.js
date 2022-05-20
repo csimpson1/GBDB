@@ -24,47 +24,8 @@ const setZeroText = '0: The flag is always set to 0 by this operation.';
 const setOneText = '1: The flag is always set to 1 by this operation.';
 const setEffectText = ': The flag is set conditionally based on the outcome of the operation.';
 
-/*
-
-    switch(theme){
-        case eightBitLdTheme:{
-            return 'eightBitLd';
-        }
-
-        case sixteenBitLdTheme:{
-            return 'sixteenBitLd';
-        }
-
-        case eightBitAluTheme: {
-            return 'eightBitAlu';
-        }
-
-        case sixteenBitAluTheme: {
-            return 'sixteenBitAlu';
-        }
-
-        case jpTheme: {
-            return 'jp';
-        }
-
-        case regTheme: {
-            return 'reg';
-        }
-
-        case controlTheme: {
-            return 'control';
-        }
-
-        case defaultTheme: {
-            return 'illegal';
-        }
-
-        default:{
-            return '';
-        }
-
-*/
 const getCategoryFormatted = (category) => {
+    console.log('category ' + category)
     switch(category) {
         case 'eightBitLd':{
             return '8 Bit Load Operation';
@@ -99,7 +60,7 @@ const getCategoryFormatted = (category) => {
         }
 
         default:
-            return '';
+            return 'Hey';
         
     }
 }
@@ -115,31 +76,28 @@ export const OpcodeCardLarge = ({
     flags,
     category
 }) => {
-
+    console.log(category);
+    console.log(mnemonic);
     const theme = getCardColor(mnemonic, operands);
-
-    console.log('bytes ', bytes);
-    console.log('immediate ', immediate);
-    console.log('bytes ', operands[1].bytes);
 
     // TT -> Tool Tip
     // States to keep track of all the tooltips
     const [toolTip, setToolTip] = React.useState(true);
 
-    const [catTT, setCatTT] = React.useState(true);
-    const [hexTT, setHexTT] = React.useState(true);
-    const [mnemTT, setMnemTT] = React.useState(true);
-    const [tBytesTT, setTBytesTT] = React.useState(true);
-    const [tImmTT, setTImmTT] = React.useState(true);
-    const [cycTT, setCycTT] = React.useState(true);
-    const [opIdxTT, setOpIdxTT] = React.useState(true);
-    const [opNameTT, setOpNameTT] = React.useState(true);
-    const [opImmTT, setOpImmTT] = React.useState(true);
-    const [opBytesTT, setOpBytesTT] = React.useState(true);
-    const [zTT, setZTT] = React.useState(true);
-    const [nTT, setNTT] = React.useState(true);
-    const [hTT, setHTT] = React.useState(true);
-    const [cTT, setCTT] = React.useState(true);
+    // const [catTT, setCatTT] = React.useState(true);
+    // const [hexTT, setHexTT] = React.useState(true);
+    // const [mnemTT, setMnemTT] = React.useState(true);
+    // const [tBytesTT, setTBytesTT] = React.useState(true);
+    // const [tImmTT, setTImmTT] = React.useState(true);
+    // const [cycTT, setCycTT] = React.useState(true);
+    // const [opIdxTT, setOpIdxTT] = React.useState(true);
+    // const [opNameTT, setOpNameTT] = React.useState(true);
+    // const [opImmTT, setOpImmTT] = React.useState(true);
+    // const [opBytesTT, setOpBytesTT] = React.useState(true);
+    // const [zTT, setZTT] = React.useState(true);
+    // const [nTT, setNTT] = React.useState(true);
+    // const [hTT, setHTT] = React.useState(true);
+    // const [cTT, setCTT] = React.useState(true);
 
     // Mouse enter handlers for triggering tooltip handlers
     
@@ -161,16 +119,16 @@ export const OpcodeCardLarge = ({
         handleMouseLeave(setToolTip);
     };
 
-    const handleCatTTEnter = (evt) => {
-        // console.log("mouse enter");
-        evt.preventDefault();
-        handleMouseEnter(setCatTT);
-    };
-    const handleCatTTExit = (evt) => {
-        // console.log("mouse exit");
-        evt.preventDefault();
-        handleMouseLeave(setCatTT);
-    };
+    // const handleCatTTEnter = (evt) => {
+    //     // console.log("mouse enter");
+    //     evt.preventDefault();
+    //     handleMouseEnter(setCatTT);
+    // };
+    // const handleCatTTExit = (evt) => {
+    //     // console.log("mouse exit");
+    //     evt.preventDefault();
+    //     handleMouseLeave(setCatTT);
+    // };
 
     const computeFlagText = (flag) => {
         switch(flag){
@@ -221,44 +179,44 @@ export const OpcodeCardLarge = ({
         return name;
     }
 
-    const handleHexTTEnter = (evt) => handleMouseEnter(setHexTT);
-    const handleHexTTExit = (evt) => handleMouseLeave(setHexTT);
+    // const handleHexTTEnter = (evt) => handleMouseEnter(setHexTT);
+    // const handleHexTTExit = (evt) => handleMouseLeave(setHexTT);
 
-    const handleMnemTTEnter = (evt) => handleMouseEnter(setMnemTT);
-    const handlMnemTTExit = (evt) => handleMouseLeave(setMnemTT);
+    // const handleMnemTTEnter = (evt) => handleMouseEnter(setMnemTT);
+    // const handlMnemTTExit = (evt) => handleMouseLeave(setMnemTT);
 
-    const handleTBytesTTEnter = (evt) => handleMouseEnter(setTBytesTT);
-    const handleTBytesTTExit = (evt) => handleMouseLeave(setTBytesTT);
+    // const handleTBytesTTEnter = (evt) => handleMouseEnter(setTBytesTT);
+    // const handleTBytesTTExit = (evt) => handleMouseLeave(setTBytesTT);
 
-    const handleTImmTTEnter = (evt) => handleMouseEnter(setTImmTT);
-    const handleTImmTTExit = (evt) => handleMouseLeave(setTImmTT);
+    // const handleTImmTTEnter = (evt) => handleMouseEnter(setTImmTT);
+    // const handleTImmTTExit = (evt) => handleMouseLeave(setTImmTT);
 
-    const handleCycTTEnter = (evt) => handleMouseEnter(setCycTT);
-    const handleCycTTExit = (evt) => handleMouseLeave(setCycTT);
+    // const handleCycTTEnter = (evt) => handleMouseEnter(setCycTT);
+    // const handleCycTTExit = (evt) => handleMouseLeave(setCycTT);
 
-    const handleOpIdxTTEnter = (evt) => handleMouseEnter(setOpIdxTT);
-    const handleOpIdxTTExit = (evt) => handleMouseLeave(setOpIdxTT);
+    // const handleOpIdxTTEnter = (evt) => handleMouseEnter(setOpIdxTT);
+    // const handleOpIdxTTExit = (evt) => handleMouseLeave(setOpIdxTT);
 
-    const handleOpNameTTEnter = (evt) => handleMouseEnter(setOpNameTT);
-    const handleOpNameTTExit = (evt) => handleMouseLeave(setOpNameTT);
+    // const handleOpNameTTEnter = (evt) => handleMouseEnter(setOpNameTT);
+    // const handleOpNameTTExit = (evt) => handleMouseLeave(setOpNameTT);
 
-    const handleOpImTTEnter = (evt) => handleMouseEnter(setOpImmTT);
-    const handleOpImTTExit = (evt) => handleMouseLeave(setOpImmTT);
+    // const handleOpImTTEnter = (evt) => handleMouseEnter(setOpImmTT);
+    // const handleOpImTTExit = (evt) => handleMouseLeave(setOpImmTT);
 
-    const handleOpBytesTTEnter = (evt) => handleMouseEnter(setOpBytesTT);
-    const handleOpBytesTTExit = (evt) => handleMouseLeave(setOpBytesTT);
+    // const handleOpBytesTTEnter = (evt) => handleMouseEnter(setOpBytesTT);
+    // const handleOpBytesTTExit = (evt) => handleMouseLeave(setOpBytesTT);
 
-    const handleZTTEnter = (evt) => handleMouseEnter(setZTT);
-    const handleZTTExit = (evt) => handleMouseLeave(setZTT);
+    // const handleZTTEnter = (evt) => handleMouseEnter(setZTT);
+    // const handleZTTExit = (evt) => handleMouseLeave(setZTT);
 
-    const handleNTTEnter = (evt) => handleMouseEnter(setNTT);
-    const handleNTTExit = (evt) => handleMouseLeave(setNTT);
+    // const handleNTTEnter = (evt) => handleMouseEnter(setNTT);
+    // const handleNTTExit = (evt) => handleMouseLeave(setNTT);
 
-    const handleHTTEnter = (evt) => handleMouseEnter(setHTT);
-    const handleHTTExit = (evt) => handleMouseLeave(setHTT);
+    // const handleHTTEnter = (evt) => handleMouseEnter(setHTT);
+    // const handleHTTExit = (evt) => handleMouseLeave(setHTT);
 
-    const handleCTTEnter = (evt) => handleMouseEnter(setCTT);
-    const handleCTTExit = (evt) => handleMouseLeave(setCTT);
+    // const handleCTTEnter = (evt) => handleMouseEnter(setCTT);
+    // const handleCTTExit = (evt) => handleMouseLeave(setCTT);
 
 
     return (
@@ -278,6 +236,7 @@ export const OpcodeCardLarge = ({
 
                     }
                     <div>{constructName()}</div>
+
                     
                     <div >
                         <a 
@@ -563,6 +522,9 @@ const FlagInfo = ({flag}) => {
 };
 
 const Container = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;

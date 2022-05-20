@@ -15,9 +15,10 @@ import {
 } from './FilterConstants';
 import reactSelect from 'react-select';
 
-export const FilterOption = ({isFirst, index, data, setRowPayload}) => {
+export const FilterOption = ({isFirst, index, data, setRowPayload, setValidated, isInactive}) => {
     
-
+    const isDisabled = isInactive;
+    const isClearable = !isInactive;
 
     // Refs
     const logicOperator = React.useRef(null);
@@ -29,6 +30,7 @@ export const FilterOption = ({isFirst, index, data, setRowPayload}) => {
     // states
     const [currentSearchField, setCurrentSearchField] = React.useState('');
     const [currentValue, setCurrentValue] = React.useState(null);
+    
 
     // helper functions
     const handleSearchFieldChange = (evt) => {
@@ -58,7 +60,7 @@ export const FilterOption = ({isFirst, index, data, setRowPayload}) => {
                 <InputGroupWrapper>
                     <InputWrapper>
                         <label htmlFor='logic-operator'></label>
-                        <Select id='logic-operator' name='logic-operator' ref={logicOperator} options={logicalOptions}/>
+                        <Select id='logic-operator' name='logic-operator' ref={logicOperator} options={logicalOptions} isClearable={isClearable} isDisabled={isDisabled}/>
                     </InputWrapper>
                     
                 </InputGroupWrapper>
@@ -66,27 +68,27 @@ export const FilterOption = ({isFirst, index, data, setRowPayload}) => {
             <InputGroupWrapper>
                 <InputWrapper>
                     <label htmlFor='search-field'>Search Field</label>
-                    <Select ref={searchField} options={searchTypeOptions} onChange={handleSearchFieldChange} />
+                    <Select ref={searchField} options={searchTypeOptions} onChange={handleSearchFieldChange} isClearable={isClearable} isDisabled={isDisabled}/>
                 </InputWrapper>
             </InputGroupWrapper>
             {
                 (['category', 'mnemonic', 'immediate', 'hexCode', 'bytes'].includes(currentSearchField)) &&
-                <SimpleFilterOption index={index} searchType={currentSearchField} selectedVal={currentValue} setRowPayload={setRowPayload}/>
+                <SimpleFilterOption index={index} searchType={currentSearchField} selectedVal={currentValue} setRowPayload={setRowPayload} setValidated={setValidated} isInactive={isInactive}/>
             }
 
             {
                 (currentSearchField === 'cycles') &&
-                <CyclesFilterOption index={index} selectedValues={currentValue} setRowPayload={setRowPayload}/>
+                <CyclesFilterOption index={index} selectedValues={currentValue} setRowPayload={setRowPayload} setValidated={setValidated} isInactive={isInactive}/>
             }
 
             {
                 (currentSearchField === 'flags') &&
-                <FlagsFilterOption index={index} selectedValues={currentValue} setRowPayload={setRowPayload}/>
+                <FlagsFilterOption index={index} selectedValues={currentValue} setRowPayload={setRowPayload} setValidated={setValidated} isInactive={isInactive}/>
             }
 
             {
                 (currentSearchField === 'operand') && 
-                <OperandFilterOptions index={index} selectedValues={currentValue} setRowPayload={setRowPayload}/>
+                <OperandFilterOptions index={index} selectedValues={currentValue} setRowPayload={setRowPayload} setValidated={setValidated} isInactive={isInactive}/>
             }
 
         </InputContainer>

@@ -15,7 +15,7 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const SimpleFilterOption = ({ index, searchType, selectedVal, setRowPayload }) => {
+export const SimpleFilterOption = ({ index, searchType, selectedVal, setRowPayload, setValidated, isInactive=false }) => {
     const {
         filterCriteria,
         actions: {
@@ -23,6 +23,9 @@ export const SimpleFilterOption = ({ index, searchType, selectedVal, setRowPaylo
             deleteRow,
         }
     } = React.useContext(FilterContext);
+
+    const isDisabled = isInactive;
+    const isClearable = !isInactive
 
     const [label, setLabel] = React.useState('');
     const [options, setOptions] = React.useState({});
@@ -100,25 +103,51 @@ export const SimpleFilterOption = ({ index, searchType, selectedVal, setRowPaylo
 
     }, [searchType, selectedVal]);
 
+    const validateInput = (evt) => {
+        // Check to see if what is being passed is valid input
+        // here evt. value contains a choice for some search field
+        if(evt.value){
+            setValidated(true);
+        }
+
+        else{
+            setValidated(false);
+        }
+    }
 
     const handleChange = (evt) => {
         // debugger;
         // console.log('simple filter option index check ', filterCriteria.length === index);
-        let rowData = {};
-        if(evt && filterCriteria.length === index){
-            console.log('inputChangeEvent');
-            console.log('evt ', evt);
-            
-            if(filterCriteria[index]){
-                rowData = clone(filterCriteria[index]);
-            };
+        if(evt){
+            let rowData = {};
+            console.log('Change in row value');
+            // We are updating a new row
+            if(filterCriteria.length === index){
+                
+                console.log('inputChangeEvent');
+                console.log('evt ', evt);
+                
+                if(filterCriteria[index]){
+                    rowData = clone(filterCriteria[index]);
+                };
 
-            // Set the parameter triggered by this event, and update the row in the context
-            rowData[searchType] = evt.value;
-            // addRow({rowNum: index, filter: rowData});
-            
+                // Set the parameter triggered by this event, and update the row in the context
+                rowData[searchType] = evt.value;
+                // addRow({rowNum: index, filter: rowData});
+                
+            }
+
+            // we are updating an existing row
+            else{
+                console.log('evt ', evt)
+                console.log('updating existing row');
+                rowData[searchType] = evt.value;
+            }
+            console.log({rowNum: index, filter: rowData});
+            validateInput(evt);
+            setRowPayload({rowNum: index, filter: rowData});
         }
-        setRowPayload({rowNum: index, filter: rowData});
+        
     }
 
     return(
@@ -128,7 +157,7 @@ export const SimpleFilterOption = ({ index, searchType, selectedVal, setRowPaylo
                 {
                     searchType === 'hexCode'?
                         <input id={`simple-input-${searchType}`} name={`simple-input-${searchType}`} type='text' ref={inputRef} onInput={handleChange}/>
-                        :<Select id={`simple-input-${searchType}`} name={`simple-input-${searchType}`} ref={inputRef} options={options} onChange={handleChange}/>
+                        :<Select id={`simple-input-${searchType}`} name={`simple-input-${searchType}`} ref={inputRef} options={options} onChange={handleChange} isClearable={isClearable} isDisabled={isDisabled}/>
                 }
             </InputWrapper>
         </InputGroupWrapper>

@@ -16,7 +16,10 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => {
+export const OperandFilterOptions = ({index, selectedValues, setRowPayload, setValidated, isInactive}) => {
+
+    const isClearable = !isInactive;
+    const isDisabled = isInactive;
 
     const {
         filterCriteria,
@@ -70,6 +73,11 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => 
             if(opIdx) payload.index = opIdx;
 
             setRowPayload({rowNum: index, filter:{operand:payload}});
+            setValidated(true);
+        }
+
+        else{
+            setValidated(false);
         }
     }, [opName, opBytes, opImm, opIdx]);
 
@@ -109,19 +117,19 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload}) => 
         <InputGroupWrapper>
             <InputWrapper>
                 <label htmlFor="operand-name">Operand Name</label>
-                <Select id='operand-name' name='operand-name' options={operandNameOptions} ref={operandName} onChange={handleNameChange}/>
+                <Select id='operand-name' name='operand-name' options={operandNameOptions} ref={operandName} onChange={handleNameChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="operand-bytes"># of Bytes</label>
-                <Select id='operand-bytes' name='operand-bytes' options={operandBytesOptions} ref={operandBytes} onChange={handleBytesChange}/>
+                <Select id='operand-bytes' name='operand-bytes' options={operandBytesOptions} ref={operandBytes} onChange={handleBytesChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="operand-immediate">Immediate</label>
-                <Select id='operand-immediate' name='operand-immediate' options={immediateOptions} ref={operandImmediate} onChange={handleImmChange}/>
+                <Select id='operand-immediate' name='operand-immediate' options={immediateOptions} ref={operandImmediate} onChange={handleImmChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="operand-index">Index</label>
-                <Select id='operand-index' name='operand-index' options={operandIndexOptions} ref={operandIndex} onChange={handleIdxChange}/>
+                <Select id='operand-index' name='operand-index' options={operandIndexOptions} ref={operandIndex} onChange={handleIdxChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
         </InputGroupWrapper>
     )

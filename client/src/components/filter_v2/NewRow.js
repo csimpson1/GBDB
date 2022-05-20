@@ -5,6 +5,7 @@ import FilterContext from '../../contexts/filter-v2-context/FilterContext';
 
 export const NewRow = ({index}) => {
     const [rowPayload, setRowPayload] = React.useState({});
+    const [validated, setValidated] = React.useState(false);
 
     const {
         actions:{
@@ -23,7 +24,7 @@ export const NewRow = ({index}) => {
             <ButtonContainer>
                 <button onClick={handleClick}>+</button>
             </ButtonContainer>
-            <FilterOption index={index} isFirst={false} setRowPayload={setRowPayload}/>
+            <FilterOption index={index} isFirst={false} setRowPayload={setRowPayload} setValidated={setValidated}/>
         </Container>
     )
 

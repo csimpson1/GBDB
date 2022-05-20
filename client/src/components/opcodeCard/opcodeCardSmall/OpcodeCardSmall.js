@@ -30,7 +30,7 @@ import { getCardColor } from '../CardThemes';
     hexCode:"0x02"
 */
 
-const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexCode, rowStart, colStart}) => {
+const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexCode, rowStart, colStart, onClick}) => {
     const theme = getCardColor(mnemonic, operands);
     
     const getTitleString = (mnemonic, operands) => {
@@ -92,24 +92,25 @@ const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexCode, rowStart, 
     }
 
     return(
-        <ThemeProvider theme={theme}>
-            <Cube rowStart={rowStart} colStart={colStart}>
-                <Side></Side>
-                <Front>
-                    <div>
-                        {getTitleString(mnemonic, operands)}
-                    </div>
-                    <div>
-                        {getCycleString(cycles)}
-                    </div>
-                    <div>
-                        {getFlagString(flags)}
-                    </div>
-                </Front>
-                <Bottom></Bottom>
-            </Cube>
+            <ThemeProvider theme={theme} >
+                <Cube rowStart={rowStart} colStart={colStart} >
+                    <Side></Side>
+                    <Front>
+                        <div>
+                            {getTitleString(mnemonic, operands)}
+                        </div>
+                        <div>
+                            {getCycleString(cycles)}
+                        </div>
+                        <div>
+                            {getFlagString(flags)}
+                        </div>
+                    </Front>
+                    <Bottom></Bottom>
+                </Cube>
             
-        </ThemeProvider>    
+            </ThemeProvider>
+            
     );
 };
 

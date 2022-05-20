@@ -12,7 +12,10 @@ import {
     InputGroupWrapper
 } from './FilterStyles';
 
-export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
+export const FlagsFilterOption = ({index, selectedValues, setRowPayload, setValidated, isInactive}) => {
+
+    const isDisabled = isInactive;
+    const isClearable = !isInactive;
 
     const zFlag = React.useRef(null);
     const nFlag = React.useRef(null);
@@ -72,7 +75,11 @@ export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
                 setC(selectedValues.C);
                 cFlag.current.setValue(flagOptions.filter(elt => elt.value === selectedValues.C));
             }
+            setValidated(true);
+        }
 
+        else{
+            setValidated(false);
         }
     }, [selectedValues]);
 
@@ -82,19 +89,19 @@ export const FlagsFilterOption = ({index, selectedValues, setRowPayload}) => {
         <InputGroupWrapper>
             <InputWrapper>
                 <label htmlFor='zflag'>Z</label>
-                <Select id='zflag' name='zflag' ref={zFlag} options={flagOptions.filter(elt => (elt.value === 'Z' || ['0','1', '-'].includes(elt.value)))} onChange={handleZChange}/>
+                <Select id='zflag' name='zflag' ref={zFlag} options={flagOptions.filter(elt => (elt.value === 'Z' || ['0','1', '-'].includes(elt.value)))} onChange={handleZChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor='nflag'>N</label>
-                <Select id='nflag' name='nflag' ref={nFlag} options={flagOptions.filter(elt => (elt.value === 'N' || ['0','1', '-'].includes(elt.value)))} onChange={handleNChange}/>
+                <Select id='nflag' name='nflag' ref={nFlag} options={flagOptions.filter(elt => (elt.value === 'N' || ['0','1', '-'].includes(elt.value)))} onChange={handleNChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor='hflag'>H</label>
-                <Select id='hflag' name='hflag' ref={hFlag} options={flagOptions.filter(elt => (elt.value === 'H' || ['0','1', '-'].includes(elt.value)))} onChange={handleHChange}/>
+                <Select id='hflag' name='hflag' ref={hFlag} options={flagOptions.filter(elt => (elt.value === 'H' || ['0','1', '-'].includes(elt.value)))} onChange={handleHChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor='cflag'>C</label>
-                <Select id='cflag' name='cflag' ref={cFlag} options={flagOptions.filter(elt => (elt.value === 'C' || ['0','1', '-'].includes(elt.value)))} onChange={handleCChange}/>
+                <Select id='cflag' name='cflag' ref={cFlag} options={flagOptions.filter(elt => (elt.value === 'C' || ['0','1', '-'].includes(elt.value)))} onChange={handleCChange} isDisabled={isDisabled} isClearable={isClearable}/>
             </InputWrapper>
         </InputGroupWrapper>
     )

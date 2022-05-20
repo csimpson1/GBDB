@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import OpcodesContext from '../../contexts/opcodes/OpcodesContext'
 import OpcodeCardSmall from '../opcodeCard/opcodeCardSmall/OpcodeCardSmallV2';
-
+import OpcodeCardLarge from '../opcodeCard/opcodeCardLarge/OpcodeCardLarge';
 
 
 // Array of strings representing hex numbers
@@ -17,41 +17,63 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
         }
     } = React.useContext(OpcodesContext);
 
+    const [showDetailCard, setShowDetailCard] = React.useState(false);
+    const [selectedOpcode, setSelectedOpcode] = React.useState({});
+
     const opcodes = codesToDisplay;
 
     return(
         <>
             {opcodes &&
- 
+            <GridContainer>
+                {
+                    showDetailCard && selectedOpcode &&
+                    <OpcodeCardLarge
+                        mnemonic={selectedOpcode.mnemonic}
+                        cycles={selectedOpcode.cycles}
+                        operands={selectedOpcode.operands}
+                        bytes={selectedOpcode.bytes}
+                        flags={selectedOpcode.flags}
+                        hexCode={selectedOpcode.hexCode}
+                        category={selectedOpcode.category}
+                    />
+                }
                 <NewGrid>
                     <HeaderItem colStart={0}>Hexcode</HeaderItem>
                     {headerArr.map((elt, idx) => (<HeaderItem colStart={idx+1}>{elt}</HeaderItem>))}
                     {headerArr.map((elt, idx) => <SideItem rowStart={idx+1}>{elt}</SideItem>)}
+                    
                     {opcodes && opcodes.map(opcode => {
                                 return (
-                                <OpcodeCardSmall
-                                    mnemonic={opcode.mnemonic}
-                                    cycles={opcode.cycles}
-                                    operands={opcode.operands}
-                                    flags={opcode.flags}
-                                    hexCode={opcode.hexCode}
-                                    key={opcode.hexCode}
-                                    colStart={Number('0x' + (prefixed? opcode.hexCode[5]:opcode.hexCode[3]))}
-                                    rowStart={Number('0x' + (prefixed? opcode.hexCode[4]:opcode.hexCode[2]))}
-                                />)
+                                    <OpcodeCardSmall
+                                        mnemonic={opcode.mnemonic}
+                                        cycles={opcode.cycles}
+                                        operands={opcode.operands}
+                                        flags={opcode.flags}
+                                        hexCode={opcode.hexCode}
+                                        key={opcode.hexCode}
+                                        category={opcode.category}
+                                        colStart={Number('0x' + (prefixed? opcode.hexCode[5]:opcode.hexCode[3]))}
+                                        rowStart={Number('0x' + (prefixed? opcode.hexCode[4]:opcode.hexCode[2]))}
+                                        onClick={(evt) => {
+                                            evt.preventDefault();
+                                            setShowDetailCard(true);
+                                            setSelectedOpcode(opcode);
+                                        }}
+                                    />
+                                // </div>
+                                )
                             }
                     )} 
                 </NewGrid>
-                
+            </GridContainer>    
             }
         </>
     )
 }
 
 const GridContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    position: relative;
 `;
 
 const HeaderContainer = styled.div`

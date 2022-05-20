@@ -7,7 +7,7 @@ export const GridContainer = () => {
         opcodes,
         prefixed,
         unprefixed,
-        state,
+        status,
         actions:{
             getOpcodes
         }
@@ -16,12 +16,22 @@ export const GridContainer = () => {
     const [codeType, setCodeType] = React.useState(unprefixed);
     const [prefixedFlag, setPrefixedFlag] = React.useState(false);
 
+    const callOpcodeService = async () => {
+            await getOpcodes();
+    }
+
     React.useEffect(() => {
-        if(!opcodes || opcodes.length === 0){
-            getOpcodes();
-        }
-        
+        callOpcodeService();
     }, []);
+
+    React.useEffect(() => {
+        if(prefixedFlag){
+            setCodeType(prefixed);
+        }
+        else{
+            setCodeType(unprefixed);
+        }
+    }, [opcodes, prefixedFlag])
 
     const handlePrefixedClick = (evt) => {
         evt.preventDefault();
@@ -35,16 +45,18 @@ export const GridContainer = () => {
         setPrefixedFlag(false);
     }
 
-    return(
-        <div>
-            <div>
-                <button onClick={handleUnprefixedClick}>Unprefixed</button>
-                <button onClick={handlePrefixedClick}>Prefixed</button>
-            </div>
-            <OpcodeGrid codesToDisplay={codeType} prefixed={prefixedFlag} />
-        </div>
-
+    return(<>
+            {status === 'idle' && 
+                <div>
+                    <div>
+                        <button onClick={handleUnprefixedClick}>Unprefixed</button>
+                        <button onClick={handlePrefixedClick}>Prefixed</button>
+                    </div>
+                    <OpcodeGrid codesToDisplay={codeType} prefixed={prefixedFlag} />
+                </div>
+            }</>
     )
+
 
 
 }

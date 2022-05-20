@@ -5,9 +5,13 @@ import FilterContext from '../../contexts/filter-v2-context/FilterContext';
 
 export const ExistingRow = ({index, data}) => {
     const [rowPayload, setRowPayload] = React.useState({});
+    const [validated, setValidated] = React.useState(false);
 
     const {
-        actions: {removeRow}
+            actions:{ 
+            removeRow,
+            addRow,
+        }
     } = React.useContext(FilterContext);
 
     const handleClick = (evt) => {
@@ -15,12 +19,33 @@ export const ExistingRow = ({index, data}) => {
         removeRow(rowPayload);
     };
 
+    // React.useEffect(() => {
+    //     setValidated(true);
+    // }, []);
+
+    React.useEffect(() => {
+        console.log('Row Payload');
+        console.log(rowPayload);
+        console.log('Data ', data);
+        if(rowPayload.filter && validated){
+            console.log('change in payload');
+            addRow(rowPayload);
+        }
+
+        // else if(!validated){
+        //     setValidated(true);
+        // }
+        
+    }, [rowPayload]);
+
+    // The isInactive here is a gross hack for now. This skirts around the problems being had with the existing rows being edited
+    // by disabling editing on these. 
     return (
         <Container>
             <ButtonContainer>
                 <button onClick={handleClick}>-</button>
             </ButtonContainer>
-            <FilterOption index={index} isFirst={false} data={data} setRowPayload={setRowPayload}/>
+            <FilterOption index={index} isFirst={false} data={data} setRowPayload={setRowPayload} setValidated={setValidated} isInactive={true}/>
         </Container>
     )
 

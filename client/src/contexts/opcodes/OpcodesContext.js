@@ -18,12 +18,15 @@ const reducer = (state, action) => {
         }
 
         case 'got-data': {
+            
+            const prefixed = action.data.filter(elt => (elt.hexCode.includes('0xCB') && elt.hexCode !== '0xCB'))
+            const unprefixed = action.data.filter(elt => !(elt.hexCode.includes('0xCB') && elt.hexCode !== '0xCB'));
             return {
                 ...state,
                 status:'idle',
                 opcodes: action.data,
-                prefixed: action.data.filter(elt => (elt.hexCode.includes('0xCB') && elt.hexCode !== '0xCB')),
-                unprefixed: action.data.filter(elt => !(elt.hexCode.includes('0xCB') && elt.hexCode !== '0xCB'))
+                prefixed,
+                unprefixed 
             }
         }
 
@@ -63,12 +66,41 @@ export const OpcodesProvider = ({ children }) => {
         }
     };
 
+    const getSpecificOpcodes = async (params) => {
+        try {
+            dispatch({type: 'loading-data'});
+            const resp = await fetch('/opcodes',
+            {
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: params
+            });
+            const parsedResp = await resp.json();
+            if(parsedResp.status < 400){
+                console.log(parsedResp.data.length);
+                dispatch({type: 'got-data', data: parsedResp.data});
+            }
+
+            else{
+                dispatch({type: 'error'});
+            }
+        }
+
+        catch(err){
+            dispatch({type: 'error'})
+        }
+    }
+
     return (
         <OpcodesContext.Provider
             value={{
                 ...state,
                 actions: {
                     getOpcodes,
+                    getSpecificOpcodes
                 }
             }}
         >

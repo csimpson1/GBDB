@@ -6,13 +6,14 @@ import NewRow from "./NewRow";
 import ExistingRow from "./ExistingRow";
 import { Collapse } from 'react-collapse'; 
 
-const FilterOptions = () => {
+const FilterOptions = ({setValidated}) => {
     const {
         filterCriteria,
         actions:{
             addRow,
             removeRow,
             createPayload,
+            makeOpcodeCall,
         }
     } = React.useContext(FilterContext);
 
@@ -36,6 +37,7 @@ const FilterOptions = () => {
     const handleTestPayload = (evt) => {
         evt.preventDefault();
         console.log(createPayload());
+        makeOpcodeCall();
     }
 
     return(
@@ -44,8 +46,8 @@ const FilterOptions = () => {
             <Container >
                 
                 <Collapse isOpened={isOpen}>
-                    {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false}/>)}
-                    <NewRow index={filterCriteria.length}/>
+                    {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false} setValidate={setValidated}/>)}
+                    <NewRow index={filterCriteria.length} setValidated={setValidated}/>
                 </Collapse>
                 <button onClick={handleTestPayload}>test payload</button>
             </Container>

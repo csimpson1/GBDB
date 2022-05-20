@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useReducer} from "react";
 import clone from 'just-clone';
+import OpcodesContext from "../opcodes/OpcodesContext";
 
 export const FilterContext = createContext(null);
 
@@ -14,21 +15,24 @@ const reducer = (state, action) => {
         case 'add-row':{
             // we want to add a row, either to a specific index or to a
             // action = {type: string, rowNum: int, filter: {...} }
+            console.log('Updating current row');
             console.log('data ', data.rowNum, ' ', data.filter);
             // debugger;
-            if(data.rowNum &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){
-                newState.filterCriteria = newState.filterCriteria.splice(data.rowNum, 0, data.filter);
+            if(typeof data.rowNum === 'number'  &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){
+                console.log(newState.filterCriteria.splice(data.rowNum, 1, data.filter));
+                newState.filterCriteria.splice(data.rowNum, 1, data.filter);
                 console.log('newState ', newState);
                 return newState;
             }
 
-            else if((data.rowNum &&  0 <= data.rowNum && data.rowNum === newState.filterCriteria.length) || !data.rowNum){
+            else if((typeof data.rowNum === 'number' &&  0 <= data.rowNum && data.rowNum === newState.filterCriteria.length) || !data.rowNum){
                 newState.filterCriteria.push(data.filter);
                 console.log('newState ', newState)
                 return newState
             }
 
             else{
+                console.log('Some issue');
                 return state;
             }
 
@@ -56,8 +60,14 @@ const reducer = (state, action) => {
 
 export const FilterProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const {
+        actions:{
+            getSpecificOpcodes
+        }
+    } = useContext(OpcodesContext);
 
     const addRow = (data) => {
+        console.log('addRow called');
         console.log('data ', data);
         dispatch({type: 'add-row', data})
     }
@@ -93,6 +103,12 @@ export const FilterProvider = ({children}) => {
         return JSON.stringify(payload);
     };
 
+    const makeOpcodeCall = () => {
+        const payload = createPayload();
+        console.log(payload);
+        getSpecificOpcodes(payload);
+    }
+
     return(
         <FilterContext.Provider
             value={{
@@ -101,6 +117,7 @@ export const FilterProvider = ({children}) => {
                     addRow,
                     removeRow,
                     createPayload,
+                    makeOpcodeCall,
                 }
             }}
         >
