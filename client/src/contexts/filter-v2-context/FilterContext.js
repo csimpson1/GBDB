@@ -55,6 +55,13 @@ const reducer = (state, action) => {
                 return state
             }
         }
+
+        case 'set-view':{
+            return {
+                ...state,
+                filterCriteria: action.data
+            }
+        }
     }
 };
 
@@ -107,6 +114,10 @@ export const FilterProvider = ({children}) => {
         const payload = createPayload();
         console.log(payload);
         getSpecificOpcodes(payload);
+    };
+
+    const setView = (view) => {
+        dispatch({type:'set-view', data: view})
     }
 
     return(
@@ -118,6 +129,7 @@ export const FilterProvider = ({children}) => {
                     removeRow,
                     createPayload,
                     makeOpcodeCall,
+                    setView
                 }
             }}
         >

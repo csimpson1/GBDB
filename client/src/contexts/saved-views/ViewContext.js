@@ -1,5 +1,6 @@
 import React, {createContext, useReducer} from 'react';
 import clone from 'just-clone';
+import FilterContext from '../filter-v2-context/FilterContext';
 
 export const ViewsContext = createContext(null);
 
@@ -140,6 +141,21 @@ export const ViewsProvider = ({ children }) => {
             dispatch({type: 'req-error'});
         }
     };
+
+    return(
+        <ViewsContext.Provider
+        value={{
+            ...state,
+            actions:{
+                getViews,
+                createView,
+                deleteView
+            }
+        }}>
+            {children }
+        </ViewsContext.Provider>
+
+    )
 }
 
 export default ViewsContext;
