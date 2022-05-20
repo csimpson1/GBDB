@@ -112,12 +112,14 @@ export const FilterProvider = ({children}) => {
 
     const makeOpcodeCall = () => {
         const payload = createPayload();
+        console.log("Payload to send");
         console.log(payload);
         getSpecificOpcodes(payload);
     };
 
-    const setView = (view) => {
-        dispatch({type:'set-view', data: view})
+    const setView = async (view) => {
+        dispatch({type:'set-view', data: view});
+        //makeOpcodeCall();
     }
 
     return(

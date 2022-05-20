@@ -191,10 +191,14 @@ const getOpcodesByParams = async(req, res) => {
 
         // complex parameters in our DB consist of some kind of data structure. these are
         // cycles, operands, flags
-        
+        console.log("Request:")
         console.log(req.body);
-        let queryString = {$and: []};
-        Object.keys(req.body).forEach(key => {
+        if(Object.keys(req.body).length === 0){
+            getAllOpcodes(req, res); 
+        }
+        else {
+            let queryString = {$and: []};
+            Object.keys(req.body).forEach(key => {
             // for simple parameters, we just look to see if we are passing multiple values to search for, and
             // provide the correct query object
             console.log('parsing key' + key);
@@ -245,6 +249,8 @@ const getOpcodesByParams = async(req, res) => {
         const db = await getDBConnection(client);
         const opcodes = await db.collection(OPCODES_COL).find(queryString).toArray();
         sendResp(res, 200, opcodes);
+        }
+        
     }
 
     catch(err){

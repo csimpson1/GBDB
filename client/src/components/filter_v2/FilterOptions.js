@@ -4,7 +4,8 @@ import FilterOption from "./FilterOption";
 import FilterContext from "../../contexts/filter-v2-context/FilterContext";
 import NewRow from "./NewRow";
 import ExistingRow from "./ExistingRow";
-import { Collapse } from 'react-collapse'; 
+import { Collapse } from 'react-collapse';
+import ViewSelector from './views/ViewSelector'; 
 
 const FilterOptions = ({setValidated}) => {
     const {
@@ -48,6 +49,7 @@ const FilterOptions = ({setValidated}) => {
                 <Collapse isOpened={isOpen}>
                     {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false} setValidate={setValidated}/>)}
                     <NewRow index={filterCriteria.length} setValidated={setValidated}/>
+                    <ViewSelector/>
                 </Collapse>
                 <button onClick={handleTestPayload}>test payload</button>
             </Container>

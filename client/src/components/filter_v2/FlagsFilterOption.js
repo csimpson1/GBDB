@@ -68,6 +68,7 @@ export const FlagsFilterOption = ({index, selectedValues, setRowPayload, setVali
                 nFlag.current.setValue(flagOptions.filter(elt => elt.value === selectedValues.N));
             } 
             if(selectedValues.H){
+                console.log('Setting H');
                 setH(selectedValues.H);
                 hFlag.current.setValue(flagOptions.filter(elt => elt.value === selectedValues.H));
             } 

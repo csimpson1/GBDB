@@ -10,7 +10,7 @@ const initialState = {
     reqStatus: 'waiting'
 };
 
-const reducer = (state, action => {
+const reducer = (state, action) => {
     switch(action.type){
         case 'loading-data': {
             return {
@@ -60,7 +60,7 @@ const reducer = (state, action => {
         }
     
     }
-});
+};
 
 export const ViewsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -91,8 +91,8 @@ export const ViewsProvider = ({ children }) => {
             const resp = await fetch('/views', 
             {
                 headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 method: 'PUT',
                 body: payload
@@ -119,8 +119,8 @@ export const ViewsProvider = ({ children }) => {
             const resp = await fetch('/views',
             {
                 headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 method: 'DELETE',
                 body: payload
@@ -148,7 +148,7 @@ export const ViewsProvider = ({ children }) => {
             ...state,
             actions:{
                 getViews,
-                createView,
+                saveView,
                 deleteView
             }
         }}>
@@ -156,6 +156,8 @@ export const ViewsProvider = ({ children }) => {
         </ViewsContext.Provider>
 
     )
+
+
 }
 
 export default ViewsContext;

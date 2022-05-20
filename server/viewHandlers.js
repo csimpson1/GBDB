@@ -19,7 +19,16 @@ const getAllViews = async(req, res) => {
     try {
         const db = await getDBConnection(client);
         const opcodes = await db.collection(VIEWS_COL).find().toArray();
-        sendResp(res, 200, opcodes);
+        const formattedOpcodes = opcodes.map(elt => {
+            return {
+                name: elt.name, 
+                values:{
+                    _id: elt._id, 
+                    view: elt.view
+                }
+            }
+        })
+        sendResp(res, 200, formattedOpcodes);
     }
 
     catch(err) {

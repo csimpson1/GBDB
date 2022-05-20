@@ -67,6 +67,8 @@ export const OpcodesProvider = ({ children }) => {
     };
 
     const getSpecificOpcodes = async (params) => {
+        console.log("Params for specific opcode search");
+        console.log(params);
         try {
             dispatch({type: 'loading-data'});
             const resp = await fetch('/opcodes',

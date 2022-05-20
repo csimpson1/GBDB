@@ -119,7 +119,7 @@ export const flagOptions = [
     {value: '1', label: '1'},
     {value: '-', label: '-'},
     {value: 'N', label: 'N'},
-    {value: 'Z', label: 'C'},
+    {value: 'Z', label: 'Z'},
     {value: 'H', label: 'H'},
     {value: 'C', label: 'C'},
 ]; 
