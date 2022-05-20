@@ -193,12 +193,16 @@ const getOpcodesByParams = async(req, res) => {
         // cycles, operands, flags
         
         console.log(req.body);
-        let queryString = {};
+        let queryString = {$and: []};
         Object.keys(req.body).forEach(key => {
             // for simple parameters, we just look to see if we are passing multiple values to search for, and
             // provide the correct query object
+            console.log('parsing key' + key);
             if(['mnemonic', 'bytes', 'immediate', 'hexCode', 'category'].includes(key)){
-                queryString = {...queryString, $and: expandArrayDisjunction(key, req.body[key])}
+                console.log('expanding simple query');
+                // queryString = {...queryString, $and: expandArrayDisjunction(key, req.body[key])};
+                queryString.$and.push(...expandArrayDisjunction(key, req.body[key]));
+                console.log(queryString);
             }
 
             else if(key === 'cycles'){
@@ -207,7 +211,8 @@ const getOpcodesByParams = async(req, res) => {
                 // val: number
                 // }
                 
-                queryString = {...queryString, $and: makeCycleQuery(req.body.cycles.op, req.body.cycles.val)};
+                //queryString = {...queryString, $and: makeCycleQuery(req.body.cycles.op, req.body.cycles.val)};
+                queryString.$and.push(...makeCycleQuery(req.body.cycles.op, req.body.cycles.val));
             }
 
             else if(key === 'flags'){
@@ -219,15 +224,23 @@ const getOpcodesByParams = async(req, res) => {
                         C: ...
                     }
                 */
-                queryString = {...queryString, $and: [makeFlagQuery(req.body.flags)]}
+                //queryString = {...queryString, $and: [makeFlagQuery(req.body.flags)]}
+                // TODO: Check this for multiple flag values
+                queryString.$and.push(makeFlagQuery(req.body.flags));
             }
 
             else if(key === 'operand'){
-                queryString = {...queryString, $and: makeOperandQuery(req.body.operand)}
+                // console.log('queryString when making operand ', queryString);
+                // console.log('makeOperandQueryResult');
+                // console.log(makeOperandQuery(req.body.operand));
+                // console.log('return value');
+                // console.log({...queryString, $and: makeOperandQuery(req.body.operand)});
+                // queryString = {...queryString, $and: makeOperandQuery(req.body.operand)};
+                queryString.$and.push(...makeOperandQuery(req.body.operand));
             }
 
         })
-
+        console.log('queryString');
         console.log(queryString);
         const db = await getDBConnection(client);
         const opcodes = await db.collection(OPCODES_COL).find(queryString).toArray();

@@ -8,6 +8,12 @@ const {
     getOpcodesByParams,
 } = require('./opcodeHandlers');
 
+const {
+    getAllViews,
+    createView,
+    deleteView
+} = require('./viewHandlers');
+
 const PORT = 4000;
 
 express()
@@ -31,5 +37,8 @@ express()
     // ENDPOINTS
     .get("/opcodes", getAllOpcodes)
     .post("/opcodes", getOpcodesByParams)
+    .get("/views", getAllViews)
+    .put("/views", createView)
+    .delete("/views", deleteView)
 
     .listen(PORT, () => console.info(`Listening on port ${PORT}`));
