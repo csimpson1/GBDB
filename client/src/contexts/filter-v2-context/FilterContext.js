@@ -84,12 +84,16 @@ export const FilterProvider = ({children}) => {
         dispatch({type :'delete-row', data});
     }
 
-    const createPayload = () => {
+    const createPayload = (array=null) => {
         // Create a payload to be sent to the opcodes service
         // If a user enters multiple rows that will affect the same criteria
         // ie they enter two distinct rows for hexcode, the latter value will be what is passed
         let payload = {};
-        state.filterCriteria.forEach(criteria => {
+        if(array === null){
+            array = state.filterCriteria;
+        }
+
+        array.forEach(criteria => {
             // criteria has the form  {currentSearchField, data}
             console.log('criteria ', criteria);
             Object.keys(criteria).forEach(key => {
@@ -116,6 +120,7 @@ export const FilterProvider = ({children}) => {
         console.log(payload);
         getSpecificOpcodes(payload);
     };
+
 
     const setView = async (view) => {
         dispatch({type:'set-view', data: view});

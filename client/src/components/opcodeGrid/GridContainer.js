@@ -1,6 +1,7 @@
 import React from "react";
 import OpcodesContext from "../../contexts/opcodes/OpcodesContext";
 import OpcodeGrid from "./OpcodeGrid";
+import SearchHeader from "../header/SearchHeader";
 
 export const GridContainer = () => {
     const {
@@ -46,8 +47,12 @@ export const GridContainer = () => {
     }
 
     return(<>
+            <div>
+                <SearchHeader/>
+            </div>
             {status === 'idle' && 
                 <div>
+                    
                     <div>
                         <button onClick={handleUnprefixedClick}>Unprefixed</button>
                         <button onClick={handlePrefixedClick}>Prefixed</button>

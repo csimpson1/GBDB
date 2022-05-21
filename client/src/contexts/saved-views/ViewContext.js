@@ -86,7 +86,8 @@ export const ViewsProvider = ({ children }) => {
 
     const saveView = async(name, view) => {
         try{
-            const payload = {name, view};
+            const payload = JSON.stringify({name, view});
+            console.log('payload ', payload);
             dispatch({type:'sending-req'});
             const resp = await fetch('/views', 
             {
@@ -113,9 +114,10 @@ export const ViewsProvider = ({ children }) => {
         }
     };
 
-    const deleteView = async(_id) => {
+    const deleteView = async (_id) => {
         try{
-            const payload = {_id};
+            const payload = JSON.stringify({_id});
+            console.log('delete payload ', payload);
             const resp = await fetch('/views',
             {
                 headers: {

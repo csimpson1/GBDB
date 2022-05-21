@@ -21,10 +21,7 @@ function App() {
             <GlobalStyles />
             <FilterProvider>
               <ViewsProvider>
-                <FilterOptions/>
-              </ViewsProvider>
-            </FilterProvider>
-              <Routes>
+                <Routes>
                 <Route path="/" element={<GridContainer/>}/>
                 <Route path="/help" element={<Loader/>}/>
                 <Route path="/ops"/>
@@ -32,6 +29,8 @@ function App() {
                 <Route path="/cbops"/>
                 <Route path="cbops/:id/"/>
               </Routes>
+              </ViewsProvider>
+            </FilterProvider>
           </Router>
       </OpcodesProvider>
   );

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import clone from 'just-clone';
 import OpcodesContext from '../../contexts/opcodes/OpcodesContext'
 import OpcodeCardSmall from '../opcodeCard/opcodeCardSmall/OpcodeCardSmallV2';
 import OpcodeCardLarge from '../opcodeCard/opcodeCardLarge/OpcodeCardLarge';
-
+import OpcodeCardSmallFiller from '../opcodeCard/OpcodeCardSmallFiller';
 
 // Array of strings representing hex numbers
 const headerArr = [...Array(16).keys()].map(elt => elt.toString(16));
@@ -21,6 +22,25 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
     const [selectedOpcode, setSelectedOpcode] = React.useState({});
 
     const opcodes = codesToDisplay;
+    let gridCoords = [];
+    let gridRow = Array(16).fill(false);
+    for(let i = 0; i < 16; i++){
+        gridCoords.push(clone(gridRow));
+    }
+
+    
+
+    // Check to see what indices need to be populated
+    if(opcodes){
+        opcodes.forEach(opcode => {
+            const col = Number('0x' + (prefixed? opcode.hexCode[5]:opcode.hexCode[3]));
+            const row = Number('0x' + (prefixed? opcode.hexCode[4]:opcode.hexCode[2]));
+            
+            gridCoords[row][col] = true;
+        })
+    }
+
+    console.log(gridCoords);
 
     return(
         <>
@@ -64,7 +84,16 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
                                 // </div>
                                 )
                             }
-                    )} 
+                    )}
+                    {
+                        gridCoords && gridCoords.map((gridRow, rowIdx) => gridRow.map(
+                            (elt, colIdx) => {
+                                if(!elt){
+                                    return <OpcodeCardSmallFiller rowStart={rowIdx} colStart={colIdx}/>
+                                }
+                            }
+                        ))
+                    } 
                 </NewGrid>
             </GridContainer>    
             }
@@ -129,7 +158,7 @@ const NewGrid = styled.div`
 
 const HeaderItem = styled.div`
     /* grid-area: head; */
-    background-color: green;
+    
     grid-column-start:${props => props.colStart};
     grid-column-end: ${props => props.colStart+1};
     grid-row-start:0;
@@ -138,15 +167,12 @@ const HeaderItem = styled.div`
 
 const SideItem = styled.div`
     /* grid-area: side; */
-    background-color: pink;
+    
     grid-column-start:0;
     grid-column-end:1;
     grid-row-start:${props => props.rowStart};
     grid-row-end:${props => props.rowStart+1};
 `;
 
-const GridItem = styled.div`
-    /* grid-area: item; */
-`;
 
 export default OpcodeGrid;

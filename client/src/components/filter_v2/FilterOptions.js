@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import FilterOption from "./FilterOption";
 import FilterContext from "../../contexts/filter-v2-context/FilterContext";
+import ViewsContext from "../../contexts/saved-views/ViewContext";
 import NewRow from "./NewRow";
 import ExistingRow from "./ExistingRow";
-import { Collapse } from 'react-collapse';
-import ViewSelector from './views/ViewSelector'; 
+
 
 const FilterOptions = ({setValidated}) => {
     const {
@@ -18,54 +17,79 @@ const FilterOptions = ({setValidated}) => {
         }
     } = React.useContext(FilterContext);
 
+    const {
+        actions: {
+            saveView
+        }
+    } = React.useContext(ViewsContext);
+
+    const viewNameRef = React.useRef(null)
+
     const [isOpen, setIsOpen] = React.useState(false);
+    const [viewOpen, setViewOpen] = React.useState(false);
 
-    const toggleOpen = (evt) => {
-        evt.preventDefault();
-        setIsOpen(!isOpen);
-    }
 
-    const handleAddRow = (evt) => {
-        evt.stopPropagation();
-        addRow({filter: {}});
-    }
-
-    const handleRemoveRow = (evt) => {
-        evt.stopPropagation();
-        removeRow({rowNum: (filterCriteria.length - 1)})
-    }
-
-    const handleTestPayload = (evt) => {
+    const handleSubmitFilter = (evt) => {
         evt.preventDefault();
         console.log(createPayload());
         makeOpcodeCall();
     }
 
-    return(
-        <div>
-            <button onClick={toggleOpen}>Show Filters</button>
-            <Container >
-                
-                <Collapse isOpened={isOpen}>
-                    {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false} setValidate={setValidated}/>)}
-                    <NewRow index={filterCriteria.length} setValidated={setValidated}/>
-                    <ViewSelector/>
-                </Collapse>
-                <button onClick={handleTestPayload}>test payload</button>
-            </Container>
-        </div>
+    const handleOpenView = (evt) => {
+        setViewOpen(true);
+    }
 
+    const handleClose = () => {
+        setViewOpen(false);
+    }
+
+    const handleSaveView = () => {
+        const name=viewNameRef.current.value;
+        console.log(filterCriteria);
+        const view=filterCriteria;
+        saveView(name, view);
+        handleClose(); 
+    }
+
+    return(
+
+            <Container >
+
+                {filterCriteria.map((elt, idx) => <ExistingRow index={idx} data={elt} isFirst={false} setValidate={setValidated}/>)}
+                <hline></hline>
+                <NewRow index={filterCriteria.length} setValidated={setValidated}/>
+
+                    <InputContainer>
+                        { !viewOpen &&
+                            <div>
+                                <button onClick={handleSubmitFilter}>Set Filter</button>
+                                <button onClick={handleOpenView}>Save as View</button>
+                            </div>
+                            
+                        }
+                        { viewOpen &&
+                            <div>
+                                <label htmlFor='view-name'>View Name</label>
+                                <input id='view-name' name='view-name' type='text' ref={viewNameRef}/>
+                                <button onClick={handleSaveView}>Save View</button>
+                                <button onClick={handleClose}>Cancel</button>
+                            </div>
+                            
+                        }
+
+                    </InputContainer>
+            </Container>
     );
 };
 
 const Container = styled.div`
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+const InputContainer = styled.div`
+    align-self: flex-end;
 `;
 
 export default FilterOptions;

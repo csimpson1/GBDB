@@ -1,10 +1,11 @@
 import React from 'react';
 import ViewsContext from '../../../contexts/saved-views/ViewContext';
 import FilterContext from '../../../contexts/filter-v2-context/FilterContext';
+import OpcodesContext from '../../../contexts/opcodes/OpcodesContext';
 import styled from 'styled-components'
 import Select from 'react-select';
 
-const ViewSelector = () => {
+export const ViewSelector = () => {
     const {
         views,
         status,
@@ -20,17 +21,28 @@ const ViewSelector = () => {
         filterCriteria,
         actions:{
             setView, 
-            makeOpcodeCall
+            makeOpcodeCall,
+            createPayload,
         }
-    } = React.useContext(FilterContext)
+    } = React.useContext(FilterContext);
+
+    const {
+        actions:{
+            getSpecificOpcodes
+        }
+    } = React.useContext(OpcodesContext)
+
+    const viewSelectRef = React.useRef(null)
 
     const [selectedView, setSelectedView] = React.useState(null);
     const [waitingForUpdate, setWaitingForUpdate] = React.useState(false);
     const [localViews, setLocalViews] = React.useState([{value: '', label: 'Loading...'}]);
 
     const handleChooseView = (evt) => {
-        console.log(evt.value);
-        setSelectedView(evt.value);
+        if(evt){
+            setSelectedView(evt.value);
+        }
+        
     }
 
     const handleSelectView = (evt) => {
@@ -38,16 +50,15 @@ const ViewSelector = () => {
         if(selectedView){
             setView(selectedView.view);
             setWaitingForUpdate(true);
-            //setTimeout(makeOpcodeCall, 2000);
-            //makeOpcodeCall();
 
         }
     };
 
     const handleDeleteView = (evt) => {
-        console.log(evt.value);
         if(selectedView){
-            deleteView(selectedView._id)
+            deleteView(selectedView._id);
+            viewSelectRef.current.clearValue();
+            getViews();
         }
     };
 
@@ -89,10 +100,9 @@ const ViewSelector = () => {
         <ViewContainer>
             <div>Select View</div>
             <InputContainer>
-                <Select id='views' name={views} options={localViews} onChange={handleChooseView}></Select>
+                <Select id='views' name={views} options={localViews} ref={viewSelectRef} onChange={handleChooseView}></Select>
                 <ButtonContainer>
                     <button onClick={handleSelectView}>Select View</button>
-                    <button>Save Curent View</button>
                     <button onClick={handleDeleteView}>Delete View</button>
                     <button onClick={handleDeleteView}>Cancel</button>
                 </ButtonContainer>
