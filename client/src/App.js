@@ -12,6 +12,7 @@ import { ViewsProvider } from "./contexts/saved-views/ViewContext";
 import FilterOptions from "./components/filter_v2/FilterOptions";
 import { GridContainer } from "./components/opcodeGrid/GridContainer";
 import {TestOpcodeLarge} from "./components/opcodeCard/opcodeCardLarge/TestOpcodeLarge"
+import Loader from "./components/Loader/Loader";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
             </FilterProvider>
               <Routes>
                 <Route path="/" element={<GridContainer/>}/>
-                <Route path="/help" element={<TestOpcodeLarge/>}/>
+                <Route path="/help" element={<Loader/>}/>
                 <Route path="/ops"/>
                 <Route path="/ops/:id"/>
                 <Route path="/cbops"/>
