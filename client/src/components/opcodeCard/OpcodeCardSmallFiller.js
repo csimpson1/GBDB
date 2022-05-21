@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { getCardColor } from './CardThemes';
+import {MdOutlineVideogameAssetOff} from 'react-icons/md';
 
 /*
     _id
@@ -43,7 +44,7 @@ const OpcodeCardSmallFiller = ({rowStart, colStart}) => {
                         -
                     </div>
                     <div>
-                        -
+                        <MdOutlineVideogameAssetOff/>
                     </div>
                     <div>
                         -
@@ -64,6 +65,7 @@ const Cube = styled.div`
     grid-column-end: ${props => props.colStart+2};
     grid-row-start:${props => props.rowStart+1};
     grid-row-end:${props => props.rowStart+2};
+    border-radius: 10px;
 `;
 
 const Front = styled.div`
@@ -79,7 +81,7 @@ const Front = styled.div`
     grid-column-end: ${props => props.colStart+2};
     grid-row-start:${props => props.rowStart+1};
     grid-row-end:${props => props.rowStart+2};
-
+    border-radius: 5px;
     /* transform: translate(0.5em); */
 `;
 

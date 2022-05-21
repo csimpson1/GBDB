@@ -20,6 +20,9 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
 
     const [showDetailCard, setShowDetailCard] = React.useState(false);
     const [selectedOpcode, setSelectedOpcode] = React.useState({});
+    const [mousePos, setMousePos] = React.useState({x:0, y:0});
+
+    const gridContainerRef = React.useRef(null);
 
     const opcodes = codesToDisplay;
     let gridCoords = [];
@@ -28,7 +31,14 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
         gridCoords.push(clone(gridRow));
     }
 
-    
+    const handleMouseMove = (evt) => {
+        if(!showDetailCard){
+            const bounds = gridContainerRef.current.getBoundingClientRect();
+            setMousePos({x:(evt.clientX - bounds.left), y:(evt.clientY-bounds.top)});
+        }
+        
+        console.log(mousePos);
+    };
 
     // Check to see what indices need to be populated
     if(opcodes){
@@ -40,12 +50,12 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
         })
     }
 
-    console.log(gridCoords);
+    
 
     return(
         <>
             {opcodes &&
-            <GridContainer>
+            <GridContainer ref={gridContainerRef} onMouseMove={handleMouseMove}>
                 {
                     showDetailCard && selectedOpcode &&
                     <OpcodeCardLarge
@@ -56,10 +66,13 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
                         flags={selectedOpcode.flags}
                         hexCode={selectedOpcode.hexCode}
                         category={selectedOpcode.category}
+                        onClick={() => setShowDetailCard(false)}
+                        xPos={mousePos.y}
+                        yPos={mousePos.y}
                     />
                 }
                 <NewGrid>
-                    <HeaderItem colStart={0}>Hexcode</HeaderItem>
+                    <HeaderItem colStart={0}>0x{'>'}v</HeaderItem>
                     {headerArr.map((elt, idx) => (<HeaderItem colStart={idx+1}>{elt}</HeaderItem>))}
                     {headerArr.map((elt, idx) => <SideItem rowStart={idx+1}>{elt}</SideItem>)}
                     
@@ -77,8 +90,10 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
                                         rowStart={Number('0x' + (prefixed? opcode.hexCode[4]:opcode.hexCode[2]))}
                                         onClick={(evt) => {
                                             evt.preventDefault();
-                                            setShowDetailCard(true);
-                                            setSelectedOpcode(opcode);
+                                            if(!showDetailCard){
+                                                setShowDetailCard(true);
+                                                setSelectedOpcode(opcode);
+                                            }
                                         }}
                                     />
                                 // </div>
@@ -131,8 +146,8 @@ const SideAndGrid = styled.div`
 
 const NewGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(17, 5.8% [col-start]);
-    grid-template-rows: repeat(17, 5.8% [row-start]);
+    grid-template-columns: repeat(17, 5.8vh [col-start]);
+    grid-template-rows: repeat(17, 5vh [row-start]);
     column-gap: calc(5px);
     row-gap: calc(5px);
     /* grid-template-areas:
@@ -158,20 +173,29 @@ const NewGrid = styled.div`
 
 const HeaderItem = styled.div`
     /* grid-area: head; */
+
     
     grid-column-start:${props => props.colStart};
     grid-column-end: ${props => props.colStart+1};
     grid-row-start:0;
     grid-row-end:1;
+
+    text-align: center;
 `;
 
 const SideItem = styled.div`
     /* grid-area: side; */
-    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     grid-column-start:0;
     grid-column-end:1;
     grid-row-start:${props => props.rowStart};
     grid-row-end:${props => props.rowStart+1};
+    text-align: center;
+    background-color: lightblue;
 `;
 
 

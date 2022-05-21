@@ -74,7 +74,10 @@ export const OpcodeCardLarge = ({
     operands,
     immediate,
     flags,
-    category
+    category, 
+    onClick,
+    xPos,
+    yPos
 }) => {
     console.log(category);
     console.log(mnemonic);
@@ -83,23 +86,6 @@ export const OpcodeCardLarge = ({
     // TT -> Tool Tip
     // States to keep track of all the tooltips
     const [toolTip, setToolTip] = React.useState(true);
-
-    // const [catTT, setCatTT] = React.useState(true);
-    // const [hexTT, setHexTT] = React.useState(true);
-    // const [mnemTT, setMnemTT] = React.useState(true);
-    // const [tBytesTT, setTBytesTT] = React.useState(true);
-    // const [tImmTT, setTImmTT] = React.useState(true);
-    // const [cycTT, setCycTT] = React.useState(true);
-    // const [opIdxTT, setOpIdxTT] = React.useState(true);
-    // const [opNameTT, setOpNameTT] = React.useState(true);
-    // const [opImmTT, setOpImmTT] = React.useState(true);
-    // const [opBytesTT, setOpBytesTT] = React.useState(true);
-    // const [zTT, setZTT] = React.useState(true);
-    // const [nTT, setNTT] = React.useState(true);
-    // const [hTT, setHTT] = React.useState(true);
-    // const [cTT, setCTT] = React.useState(true);
-
-    // Mouse enter handlers for triggering tooltip handlers
     
 
     const handleMouseEnter = (stateFn) => stateFn(true);
@@ -119,16 +105,7 @@ export const OpcodeCardLarge = ({
         handleMouseLeave(setToolTip);
     };
 
-    // const handleCatTTEnter = (evt) => {
-    //     // console.log("mouse enter");
-    //     evt.preventDefault();
-    //     handleMouseEnter(setCatTT);
-    // };
-    // const handleCatTTExit = (evt) => {
-    //     // console.log("mouse exit");
-    //     evt.preventDefault();
-    //     handleMouseLeave(setCatTT);
-    // };
+
 
     const computeFlagText = (flag) => {
         switch(flag){
@@ -179,49 +156,11 @@ export const OpcodeCardLarge = ({
         return name;
     }
 
-    // const handleHexTTEnter = (evt) => handleMouseEnter(setHexTT);
-    // const handleHexTTExit = (evt) => handleMouseLeave(setHexTT);
-
-    // const handleMnemTTEnter = (evt) => handleMouseEnter(setMnemTT);
-    // const handlMnemTTExit = (evt) => handleMouseLeave(setMnemTT);
-
-    // const handleTBytesTTEnter = (evt) => handleMouseEnter(setTBytesTT);
-    // const handleTBytesTTExit = (evt) => handleMouseLeave(setTBytesTT);
-
-    // const handleTImmTTEnter = (evt) => handleMouseEnter(setTImmTT);
-    // const handleTImmTTExit = (evt) => handleMouseLeave(setTImmTT);
-
-    // const handleCycTTEnter = (evt) => handleMouseEnter(setCycTT);
-    // const handleCycTTExit = (evt) => handleMouseLeave(setCycTT);
-
-    // const handleOpIdxTTEnter = (evt) => handleMouseEnter(setOpIdxTT);
-    // const handleOpIdxTTExit = (evt) => handleMouseLeave(setOpIdxTT);
-
-    // const handleOpNameTTEnter = (evt) => handleMouseEnter(setOpNameTT);
-    // const handleOpNameTTExit = (evt) => handleMouseLeave(setOpNameTT);
-
-    // const handleOpImTTEnter = (evt) => handleMouseEnter(setOpImmTT);
-    // const handleOpImTTExit = (evt) => handleMouseLeave(setOpImmTT);
-
-    // const handleOpBytesTTEnter = (evt) => handleMouseEnter(setOpBytesTT);
-    // const handleOpBytesTTExit = (evt) => handleMouseLeave(setOpBytesTT);
-
-    // const handleZTTEnter = (evt) => handleMouseEnter(setZTT);
-    // const handleZTTExit = (evt) => handleMouseLeave(setZTT);
-
-    // const handleNTTEnter = (evt) => handleMouseEnter(setNTT);
-    // const handleNTTExit = (evt) => handleMouseLeave(setNTT);
-
-    // const handleHTTEnter = (evt) => handleMouseEnter(setHTT);
-    // const handleHTTExit = (evt) => handleMouseLeave(setHTT);
-
-    // const handleCTTEnter = (evt) => handleMouseEnter(setCTT);
-    // const handleCTTExit = (evt) => handleMouseLeave(setCTT);
 
 
     return (
         <ThemeProvider theme={theme}>
-            <Container>
+            <Container onClick={onClick} xPos={xPos} yPos={yPos}>
                 {/* Category */}
                     {toolTip &&
                         <StyledReactTooltip
@@ -235,7 +174,7 @@ export const OpcodeCardLarge = ({
                         </StyledReactTooltip>
 
                     }
-                    <div>{constructName()}</div>
+                    <Title>{constructName()}</Title>
 
                     
                     <div >
@@ -252,53 +191,53 @@ export const OpcodeCardLarge = ({
                 <Row>
 
                     <Item>
-                        <a
+                        <Heading
                             data-tip={hexText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
                             >
-                        Hex Code</a>
+                        Hex Code</Heading>
                         <div>{hexCode}</div>
                     </Item>
                     
                     <Item>
-                        <a
+                        <Heading
                             data-tip={mnemText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >Mnemonic</a>
+                        >Mnemonic</Heading>
                         <div>{mnemonic}</div>
                     </Item>
                     <div>
-                        <a
+                        <Heading
                             data-tip={tBytesText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >Total Size in Bytes</a>
+                        >Total Size in Bytes</Heading>
                         <div>{bytes}</div>
                     </div>
                 </Row>
                 {/* Immediate & cycles */}
                 <Row>
                     <Item>
-                        <a
+                        <Heading
                             data-tip={immText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >Immediate</a>
+                        >Immediate</Heading>
                         <div>{immediate ? 'True' : 'False'}</div>
                     </Item>
                     <Item>
-                        <a
+                        <Heading
                             data-tip={cycText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >Cycles</a>
+                        >Cycles</Heading>
                         {
                             (cycles.length === 1) ? 
                             (<div>{cycles[0]}</div>) : (<div><div></div>On True/On False<div>{cycles[0]}/{cycles[1]}</div></div>)
@@ -360,12 +299,12 @@ export const OpcodeCardLarge = ({
                         </StyledReactTooltip>
                     }
                     <Item>
-                        <a
+                        <Heading
                             data-tip={zText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >Z</a>
+                        >Z</Heading>
                         <div>
                             <a
                                 data-tip
@@ -377,12 +316,12 @@ export const OpcodeCardLarge = ({
                         
                     </Item>
                     <Item>
-                        <a
+                        <Heading
                             data-tip={nText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >N</a>
+                        >N</Heading>
                         <div>
                             <a
                             data-tip
@@ -396,12 +335,12 @@ export const OpcodeCardLarge = ({
                         </div>
                     </Item>
                     <Item>
-                        <a
+                        <Heading
                             data-tip={hText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >H</a>
+                        >H</Heading>
                         <div>
                             <a
                             data-tip
@@ -415,12 +354,12 @@ export const OpcodeCardLarge = ({
                         </div>
                     </Item>
                     <Item>
-                        <a
+                        <Heading
                             data-tip={cText} 
                             data-for="tt"
                             onMouseEnter={handleTTEnter}
                             onMouseLeave={handleTTExit}
-                        >C</a>
+                        >C</Heading>
                         <div>
                             <a
                                 data-tip
@@ -476,31 +415,31 @@ const Operand = ({name, immediate, bytes, index }) => {
 
             }
             <Item>
-                <a
+                <Heading
                     data-tip={opIdxText} 
                     data-for={`ttOp${index}`}
                     onMouseEnter={handleTTEnter}
                     onMouseLeave={handleTTExit}
-                >Index</a>
+                >Index</Heading>
                 <div>{index}</div>
             </Item>
             <Item>
-                <a
+                <Heading
                     data-tip={oppName} 
                     data-for={`ttOp${index}`}
                     onMouseEnter={handleTTEnter}
                     onMouseLeave={handleTTExit}
-                >Name</a>
+                >Name</Heading>
                 <div>{name}</div>
             </Item>
             {immediate &&
             <Item>
-                <a
+                <Heading
                     data-tip={oppImmText} 
                     data-for={`ttOp${index}`}
                     onMouseEnter={handleTTEnter}
                     onMouseLeave={handleTTExit}
-                >Immediate</a>
+                >Immediate</Heading>
                 <div>{immediate? 'True': 'False'}</div>
             </Item>}
             {bytes && 
@@ -523,8 +462,8 @@ const FlagInfo = ({flag}) => {
 
 const Container = styled.div`
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: ${props => props.xPos}px;//50%;
+    left: ${props => props.yPos}px;//50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -555,6 +494,14 @@ const Item = styled.div`
 const StyledReactTooltip = styled(ReactTooltip)`
     max-width: 250px !important;
 `
+const Title = styled.h1`
+    font-size: 14pt;
+    font-weight: bold;
+`;
 
+const Heading = styled.a`
+    font-size: 10pt;
+    font-weight: bold;
+`;
 
 export default OpcodeCardLarge;

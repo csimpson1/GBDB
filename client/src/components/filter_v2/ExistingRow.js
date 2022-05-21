@@ -16,8 +16,6 @@ export const ExistingRow = ({index, data}) => {
 
     const handleClick = (evt) => {
         evt.preventDefault();
-        console.log('rowPayload');
-        console.log(rowPayload);
         // ugly fix, some components are not sending rowPayload properly
         if(!('rowNum' in rowPayload)){
             rowPayload.rowNum = index;
@@ -30,11 +28,7 @@ export const ExistingRow = ({index, data}) => {
     // }, []);
 
     React.useEffect(() => {
-        console.log('Row Payload');
-        console.log(rowPayload);
-        console.log('Data ', data);
         if(rowPayload.filter && validated){
-            console.log('change in payload');
             addRow(rowPayload);
         }
 

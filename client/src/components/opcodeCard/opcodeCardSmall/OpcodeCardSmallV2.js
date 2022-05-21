@@ -136,6 +136,10 @@ const Front = styled.div`
     grid-column-end: ${props => props.colStart+2};
     grid-row-start:${props => props.rowStart+1};
     grid-row-end:${props => props.rowStart+2};
+    border-radius: 5px;
+
+
+    font-size: 8pt;
 
     /* transform: translate(0.5em); */
 `;
