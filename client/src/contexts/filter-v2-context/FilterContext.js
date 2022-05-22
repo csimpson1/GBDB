@@ -15,24 +15,18 @@ const reducer = (state, action) => {
         case 'add-row':{
             // we want to add a row, either to a specific index or to a
             // action = {type: string, rowNum: int, filter: {...} }
-            console.log('Updating current row');
-            console.log('data ', data.rowNum, ' ', data.filter);
-            // debugger;
             if(typeof data.rowNum === 'number'  &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){
-                console.log(newState.filterCriteria.splice(data.rowNum, 1, data.filter));
                 newState.filterCriteria.splice(data.rowNum, 1, data.filter);
-                console.log('newState ', newState);
+
                 return newState;
             }
 
             else if((typeof data.rowNum === 'number' &&  0 <= data.rowNum && data.rowNum === newState.filterCriteria.length) || !data.rowNum){
                 newState.filterCriteria.push(data.filter);
-                console.log('newState ', newState)
                 return newState
             }
 
             else{
-                console.log('Some issue');
                 return state;
             }
 
@@ -41,17 +35,12 @@ const reducer = (state, action) => {
 
         case 'delete-row':{
             // we want to delete a row at a specific index
-            console.log('action: ', data);
-            console.log(0 <= data.rowNum);
-            console.log(data.rowNum < newState.filterCriteria.length);
             if(typeof data.rowNum === 'number' &&  0 <= data.rowNum && data.rowNum < newState.filterCriteria.length){
                 newState.filterCriteria = newState.filterCriteria.filter((elt, idx) => idx !== data.rowNum);
-                console.log('length ', newState.filterCriteria.length);
                 return newState;
             }
 
             else{
-                console.log('no action taken');
                 return state
             }
         }
@@ -74,13 +63,10 @@ export const FilterProvider = ({children}) => {
     } = useContext(OpcodesContext);
 
     const addRow = (data) => {
-        console.log('addRow called');
-        console.log('data ', data);
         dispatch({type: 'add-row', data})
     }
 
     const removeRow = (data) => {
-        console.log('data ', data);
         dispatch({type :'delete-row', data});
     }
 
@@ -95,7 +81,6 @@ export const FilterProvider = ({children}) => {
 
         array.forEach(criteria => {
             // criteria has the form  {currentSearchField, data}
-            console.log('criteria ', criteria);
             Object.keys(criteria).forEach(key => {
                 //payload[criteria.currentSearchField] = criteria.data;
                 if(key === 'operand'){
@@ -110,14 +95,11 @@ export const FilterProvider = ({children}) => {
             
         })
 
-        console.log(payload);
         return JSON.stringify(payload);
     };
 
     const makeOpcodeCall = () => {
         const payload = createPayload();
-        console.log("Payload to send");
-        console.log(payload);
         getSpecificOpcodes(payload);
     };
 

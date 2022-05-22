@@ -14,7 +14,6 @@ const fetchOpcodeData = async() => {
     try{
       const data = await request('https://gbdev.io/gb-opcodes/Opcodes.json');
       const opcodes = await JSON.parse(data);
-      console.log(opcodes.unprefixed["0x01"]);
       return opcodes;
     }
     

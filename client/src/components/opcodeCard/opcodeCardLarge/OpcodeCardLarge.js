@@ -26,7 +26,6 @@ const setOneText = '1: The flag is always set to 1 by this operation.';
 const setEffectText = ': The flag is set conditionally based on the outcome of the operation.';
 
 const getCategoryFormatted = (category) => {
-    console.log('category ' + category)
     switch(category) {
         case 'eightBitLd':{
             return '8 Bit Load Operation';
@@ -82,9 +81,7 @@ export const OpcodeCardLarge = ({
     xOverflow,
     yOverflow,
 }) => {
-    console.log(category);
-    console.log(mnemonic);
-    console.log(xOverflow, ' ', yOverflow);
+
     const theme = getCardColor(mnemonic, operands);
 
     // TT -> Tool Tip

@@ -79,7 +79,7 @@ export const FilterContextProvider = ({ children }) => {
     
     const updateFilters = (data) => {
         // Wrapper function for updating filter data
-        console.log( 'updateFiltersData ', data);
+
         dispatch({type:'update-filters', data});
     }
 

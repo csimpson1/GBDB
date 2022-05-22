@@ -51,14 +51,12 @@ const expandArrayDisjunction = (key, paramVal) => {
     
     // No need to add the or clause if we have a singleton array
     else if(Array.isArray(paramVal) && paramVal.length === 1){
-        console.log(key, ' ', paramVal);
         let queryPart = {};
         queryPart[key] = paramVal[0];
         query.push(queryPart);
     }
 
     else {
-        console.log(key, ' ', paramVal);
         let queryPart = {};
         queryPart[key] = paramVal;
         query.push(queryPart);
@@ -137,7 +135,6 @@ const makeOperandQuery = (operandQueryString) => {
         // search through each operand passed
         for(let i = 0; i < operandQueryString.length; i++){
             let operand = operandQueryString[i];
-            console.log(operand);
             let searchKeys = Object.keys(operand);
             // We want to make sure the user actually passes something to search off of
             if(searchKeys.length > 0){
@@ -153,7 +150,6 @@ const makeOperandQuery = (operandQueryString) => {
                         // Get the value, and construct the subquery object and add it to the query
                         const searchValue = operand[searchKey];
                         let queryPart = {};
-                        console.log(queryPart);
                         queryPart[`operands${indexSuffix}.${searchKey}`] = searchValue;
                         query.push(queryPart);
                     }
@@ -166,13 +162,11 @@ const makeOperandQuery = (operandQueryString) => {
                 throw new Error('Empty operand passed!')
             }
 
-            console.log(query);
             return query;
         }
     }
 
     else if(!Array.isArray(operandQueryString)){
-        console.log(operandQueryString);
         throw new Error('Need an array of operands to search!');
     }
 
@@ -191,8 +185,7 @@ const getOpcodesByParams = async(req, res) => {
 
         // complex parameters in our DB consist of some kind of data structure. these are
         // cycles, operands, flags
-        console.log("Request:")
-        console.log(req.body);
+
         if(Object.keys(req.body).length === 0){
             getAllOpcodes(req, res); 
         }
@@ -201,12 +194,11 @@ const getOpcodesByParams = async(req, res) => {
             Object.keys(req.body).forEach(key => {
             // for simple parameters, we just look to see if we are passing multiple values to search for, and
             // provide the correct query object
-            console.log('parsing key' + key);
+
             if(['mnemonic', 'bytes', 'immediate', 'hexCode', 'category'].includes(key)){
-                console.log('expanding simple query');
                 // queryString = {...queryString, $and: expandArrayDisjunction(key, req.body[key])};
                 queryString.$and.push(...expandArrayDisjunction(key, req.body[key]));
-                console.log(queryString);
+
             }
 
             else if(key === 'cycles'){
@@ -234,18 +226,12 @@ const getOpcodesByParams = async(req, res) => {
             }
 
             else if(key === 'operand'){
-                // console.log('queryString when making operand ', queryString);
-                // console.log('makeOperandQueryResult');
-                // console.log(makeOperandQuery(req.body.operand));
-                // console.log('return value');
-                // console.log({...queryString, $and: makeOperandQuery(req.body.operand)});
-                // queryString = {...queryString, $and: makeOperandQuery(req.body.operand)};
+
                 queryString.$and.push(...makeOperandQuery(req.body.operand));
             }
 
         })
-        console.log('queryString');
-        console.log(queryString);
+   
         const db = await getDBConnection(client);
         const opcodes = await db.collection(OPCODES_COL).find(queryString).toArray();
         sendResp(res, 200, opcodes);

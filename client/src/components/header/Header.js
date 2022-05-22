@@ -56,7 +56,7 @@ const LineContainer = styled.div`
 
 const VertLine = styled.div`
     border-left: 3px solid slategrey;
-    width: 50px;
+    width: 15px;
     height: 100px;
 
 `

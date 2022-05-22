@@ -12,7 +12,7 @@ const options = {
 };
 
 const addCategories = async () => {
-    console.log(MONGO_URI);
+
     const client = new MongoClient(MONGO_URI, options)
 
     try {

@@ -16,8 +16,6 @@ export const TestOpcodeLarge = () => {
         "hexCode":"0x01",
         "category":"sixteenBitLd"};
 
-    console.log(data._id);
-    console.log(data.cycles);
 
     return <OpcodeCardLarge 
         mnemonic={data.mnemonic}

@@ -30,8 +30,7 @@ const FilterOptions = ({setValidated}) => {
 
 
     const handleSubmitFilter = (evt) => {
-        evt.preventDefault();
-        console.log(createPayload());
+        evt.preventDefault();;
         makeOpcodeCall();
     }
 
@@ -45,7 +44,6 @@ const FilterOptions = ({setValidated}) => {
 
     const handleSaveView = () => {
         const name=viewNameRef.current.value;
-        console.log(filterCriteria);
         const view=filterCriteria;
         saveView(name, view);
         handleClose(); 

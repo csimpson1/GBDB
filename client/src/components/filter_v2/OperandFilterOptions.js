@@ -35,7 +35,6 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload, setV
     const [opIdx, setOpIdx] = React.useState('');
 
     const handleChange = (evt, param) => {
-        // console.log(evt);
         let rowData = {};
         if(filterCriteria[index]){
             rowData = clone(filterCriteria[index]);
@@ -89,9 +88,7 @@ export const OperandFilterOptions = ({index, selectedValues, setRowPayload, setV
 
     React.useEffect(() => {
         if(selectedValues && Object.keys(selectedValues).length > 0){
-            console.log(selectedValues);
             if(selectedValues.name){
-                console.log('name ', selectedValues.name);
                 setOpName(selectedValues.name);
                 operandName.current.setValue(operandNameOptions.filter(elt => elt.value === selectedValues.name));
             }

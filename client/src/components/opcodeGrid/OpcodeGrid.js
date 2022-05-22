@@ -39,17 +39,15 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
     const handleMouseMove = (evt) => {
         if(!showDetailCard){
             const bounds = gridContainerRef.current.getBoundingClientRect();
-            console.log(`${bounds.left} ${evt.clientX} ${bounds.top} ${evt.clientY}`)
+
             setMousePos({x:(evt.clientX - bounds.left), y:(evt.clientY-bounds.top)});
             if(evt.clientX - bounds.left + 250 > bounds.right){
-                console.log('RHS Overflow');
                 setXOverflow(true);
             } else {
                 setXOverflow(false);
             }
 
             if(evt.clientY - bounds.top + 330 > bounds.bottom){
-                console.log('Bottom Overflow');
                 setYOverflow(true);
             } else {
                 setYOverflow(false);

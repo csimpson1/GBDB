@@ -47,7 +47,6 @@ export const ViewSelector = () => {
     }
 
     const handleSelectView = (evt) => {
-        console.log(evt.value);
         if(selectedView){
             setView(selectedView.view);
             setWaitingForUpdate(true);
