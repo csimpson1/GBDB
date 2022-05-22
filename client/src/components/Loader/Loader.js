@@ -18,6 +18,7 @@ const Loader = () => {
 
     return (
         <Wrapper>
+            Loading
             <Spinner>
                 <MdGamepad size={50}/>
             </Spinner>

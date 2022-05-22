@@ -5,6 +5,7 @@ import OpcodesContext from '../../contexts/opcodes/OpcodesContext'
 import OpcodeCardSmall from '../opcodeCard/opcodeCardSmall/OpcodeCardSmallV2';
 import OpcodeCardLarge from '../opcodeCard/opcodeCardLarge/OpcodeCardLarge';
 import OpcodeCardSmallFiller from '../opcodeCard/OpcodeCardSmallFiller';
+import Loader from '../Loader/Loader';
 
 
 // Array of strings representing hex numbers
@@ -71,7 +72,7 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
 
     return(
         <>
-            {opcodes &&
+            {(state === 'idle') ? <Loader/>:
             <GridContainer ref={gridContainerRef} onMouseMove={handleMouseMove}>
                 {
                     showDetailCard && selectedOpcode &&

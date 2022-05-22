@@ -4,6 +4,7 @@ import OpcodeGrid from "./OpcodeGrid";
 import SearchHeader from "../header/SearchHeader";
 import { SelectButton } from "../Common/Button";
 import styled from "styled-components";
+import Loader from '../Loader/Loader'
 
 export const GridContainer = () => {
     const {
@@ -52,7 +53,7 @@ export const GridContainer = () => {
             <div>
                 <SearchHeader/>
             </div>
-            {status === 'idle' && 
+            {status === 'idle' ?
                 <div>
                     
                     <Container>
@@ -75,7 +76,8 @@ export const GridContainer = () => {
                         <OpcodeGrid codesToDisplay={codeType} prefixed={prefixedFlag} />
                     </Bezel>
                     
-                </div>
+                </div> :
+                <Loader/>
             }</>
     )
 
