@@ -46,9 +46,7 @@ const OpcodeCardSmallFiller = ({rowStart, colStart}) => {
                     <div>
                         <MdOutlineVideogameAssetOff/>
                     </div>
-                    <div>
-                        -
-                    </div>
+
                 </Front>
                 {/* <Bottom></Bottom> */}
             {/* </Cube> */}
