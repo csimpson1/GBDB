@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { getCardColor } from '../CardThemes';
+import { Hover } from '../../Common/Button';
 
 /*
     _id
@@ -95,17 +96,19 @@ const OpcodeCardSmall = ({mnemonic, cycles, operands, flags, hexCode, category, 
         <ThemeProvider theme={theme}>
             {/* <Cube rowStart={rowStart} colStart={colStart}> */}
                 {/* <Side></Side> */}
-                <Front rowStart={rowStart} colStart={colStart} onClick={onClick}>
-                    <div>
-                        {getTitleString(mnemonic, operands)}
-                    </div>
-                    <div>
-                        {getCycleString(cycles)}
-                    </div>
-                    <div>
-                        {getFlagString(flags)}
-                    </div>
-                </Front>
+                <Hover scale={0.8} tension={20} friction={2}>
+                    <Front rowStart={rowStart} colStart={colStart} onClick={onClick}>
+                        <div>
+                            {getTitleString(mnemonic, operands)}
+                        </div>
+                        <div>
+                            {getCycleString(cycles)}
+                        </div>
+                        <div>
+                            {getFlagString(flags)}
+                        </div>
+                    </Front>
+                </Hover>
                 {/* <Bottom></Bottom> */}
             {/* </Cube> */}
             

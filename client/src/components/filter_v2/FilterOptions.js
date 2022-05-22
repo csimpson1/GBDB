@@ -4,7 +4,7 @@ import FilterContext from "../../contexts/filter-v2-context/FilterContext";
 import ViewsContext from "../../contexts/saved-views/ViewContext";
 import NewRow from "./NewRow";
 import ExistingRow from "./ExistingRow";
-
+import { SelectButton } from '../Common/Button';
 
 const FilterOptions = ({setValidated}) => {
     const {
@@ -61,18 +61,18 @@ const FilterOptions = ({setValidated}) => {
 
                     <InputContainer>
                         { !viewOpen &&
-                            <div>
-                                <button onClick={handleSubmitFilter}>Set Filter</button>
-                                <button onClick={handleOpenView}>Save as View</button>
-                            </div>
+                            <ButtonContainer>
+                                <SelectButton width={100} onClick={handleSubmitFilter}>Set Filter</SelectButton>
+                                <SelectButton  width={100} onClick={handleOpenView}>Save as View</SelectButton>
+                            </ButtonContainer>
                             
                         }
                         { viewOpen &&
                             <div>
                                 <label htmlFor='view-name'>View Name</label>
                                 <input id='view-name' name='view-name' type='text' ref={viewNameRef}/>
-                                <button onClick={handleSaveView}>Save View</button>
-                                <button onClick={handleClose}>Cancel</button>
+                                <SelectButton onClick={handleSaveView}>Save View</SelectButton>
+                                <SelectButton onClick={handleClose}>Cancel</SelectButton>
                             </div>
                             
                         }
@@ -87,6 +87,12 @@ const Container = styled.div`
     flex-direction: column;
     align-items: flex-start;
 `;
+
+const ButtonContainer = styled.div`
+padding-top: 10px;
+    display: flex;
+    gap: 5px;
+`
 
 const InputContainer = styled.div`
     align-self: flex-end;

@@ -1,8 +1,9 @@
 import React from "react";
+import { config } from "react-spring";
 // import Popup from 'reactjs-popup';
 import ReactTooltip from 'react-tooltip';
-
-import styled, { ThemeProvider } from "styled-components";
+import {animated, useSpring} from 'react-spring';
+import styled, { ThemeProvider, keyframes } from "styled-components";
 import { getCardColor } from '../CardThemes';
 
 const catText = 'The operation category.';
@@ -160,9 +161,9 @@ export const OpcodeCardLarge = ({
     }
 
 
-
     return (
         <ThemeProvider theme={theme}>
+
             <Container onClick={onClick} xPos={xPos} yPos={yPos} xOverflow={xOverflow} yOverflow={yOverflow}>
                 {/* Category */}
                     {toolTip &&
@@ -463,6 +464,11 @@ const FlagInfo = ({flag}) => {
 
 };
 
+const animation = keyframes`
+    0% {transform: scale(0.75)}
+    100% {transform: scale(1)}
+`
+
 const Container = styled.div`
     position: absolute;
     /* top: ${props => props.yPos}px;//50%;
@@ -478,6 +484,8 @@ const Container = styled.div`
     border-radius: 5px;
     border-color: ${props => props.theme.primary};
     padding: 10px;
+    z-index: 1000;
+    animation: ${animation} ease-in-out 400ms;
 `;
 
 const Row = styled.div`

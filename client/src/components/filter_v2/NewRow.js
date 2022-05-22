@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FilterOption from './FilterOption';
 import FilterContext from '../../contexts/filter-v2-context/FilterContext';
-
+import { Button } from '../Common/Button';
 export const NewRow = ({index}) => {
     const [rowPayload, setRowPayload] = React.useState({});
     const [validated, setValidated] = React.useState(false);
@@ -22,7 +22,7 @@ export const NewRow = ({index}) => {
     return (
         <Container>
             <ButtonContainer>
-                <button onClick={handleClick}>+</button>
+                <Button onClick={handleClick}>+</Button>
             </ButtonContainer>
             <FilterOption index={index} isFirst={false} setRowPayload={setRowPayload} setValidated={setValidated}/>
         </Container>

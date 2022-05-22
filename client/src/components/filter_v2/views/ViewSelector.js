@@ -4,6 +4,7 @@ import FilterContext from '../../../contexts/filter-v2-context/FilterContext';
 import OpcodesContext from '../../../contexts/opcodes/OpcodesContext';
 import styled from 'styled-components'
 import Select from 'react-select';
+import { SelectButton } from '../../Common/Button';
 
 export const ViewSelector = () => {
     const {
@@ -102,9 +103,9 @@ export const ViewSelector = () => {
             <InputContainer>
                 <Select id='views' name={views} options={localViews} ref={viewSelectRef} onChange={handleChooseView}></Select>
                 <ButtonContainer>
-                    <button onClick={handleSelectView}>Select View</button>
-                    <button onClick={handleDeleteView}>Delete View</button>
-                    <button onClick={handleDeleteView}>Cancel</button>
+                    <SelectButton onClick={handleSelectView}>Select View</SelectButton>
+                    <SelectButton onClick={handleDeleteView}>Delete View</SelectButton>
+                    <SelectButton onClick={handleDeleteView}>Cancel</SelectButton>
                 </ButtonContainer>
             </InputContainer>
             
@@ -127,6 +128,7 @@ const InputContainer = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
+    gap 5px;
 `;
 
 export default ViewSelector;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FilterOption from './FilterOption';
 import FilterContext from '../../contexts/filter-v2-context/FilterContext';
+import {Button, SelectButton} from '../Common/Button';
 
 export const ExistingRow = ({index, data}) => {
     const [rowPayload, setRowPayload] = React.useState({});
@@ -43,7 +44,7 @@ export const ExistingRow = ({index, data}) => {
     return (
         <Container>
             <ButtonContainer>
-                <button onClick={handleClick}>-</button>
+                <Button onClick={handleClick}>-</Button>
             </ButtonContainer>
             <FilterOption index={index} isFirst={false} data={data} setRowPayload={setRowPayload} setValidated={setValidated} isInactive={true}/>
         </Container>
