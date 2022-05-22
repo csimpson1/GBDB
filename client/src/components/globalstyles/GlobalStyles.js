@@ -33,5 +33,6 @@ export default createGlobalStyle`
 
     body{
         background-color: ivory;
+        font-family: 'Poppins', sans-serif;
     }
 `;

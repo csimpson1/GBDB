@@ -67,6 +67,11 @@ export const GridContainer = () => {
                         
                     </Container>
                     <Bezel>
+                            <LineContainer>
+                                <PinkHR/>
+                                <BlueHR/>
+                                <BezelTitle>DOT MATRIX WITH STEREO SOUND</BezelTitle>
+                            </LineContainer>
                         <OpcodeGrid codesToDisplay={codeType} prefixed={prefixedFlag} />
                     </Bezel>
                     
@@ -93,11 +98,44 @@ const RotatedBtnContainer = styled.div`
     transform: rotate(-15deg);
 `;
 
-const Bezel = styled.div`
+export const Bezel = styled.div`
     background-color: #808080;
     padding: 20px 40px;
     border-radius: 10px;
     border-bottom-right-radius: 40px; 
-    width: 99%;
+    width: 95%;
     margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid;
+    border-color: slategrey;
+
 `;
+
+export const BezelTitle = styled.div`
+    color: lightgrey;
+    background-color:#808080; 
+    transform-origin: 50% 50%;
+    position: absolute;
+    left: 50%;
+    top: 1px;
+    z-index: 1;
+    padding: 0px 10px;
+
+`
+
+export const LineContainer = styled.div`
+    width: 100%;
+    margin: 5px;
+    position: relative;
+`
+
+export const BlueHR = styled.hr`
+    color: var(--color-lightblue);
+`;
+
+export const PinkHR = styled.hr`
+    color: rgb(156, 17, 126);
+
+`
