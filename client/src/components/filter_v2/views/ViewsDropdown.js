@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ViewSelector from "./ViewSelector";
 import { Collapse } from 'react-collapse';
 import {CgChevronRightO, CgChevronDownO} from 'react-icons/cg';
+import Button from "../../Common/Button";
 
 
 const ViewsDropdown = () => {
@@ -20,7 +21,7 @@ const ViewsDropdown = () => {
     return(
         <DropdownContainer>
             <div>
-                <button onClick={toggleOpen}>{isOpen && <CgChevronDownO/>}{!isOpen && <CgChevronRightO/>}</button>
+                <Button onClick={toggleOpen}>{isOpen && <CgChevronDownO/>}{!isOpen && <CgChevronRightO/>}</Button>
             </div>
             <Container>
                 {!isOpen && <Title> Saved Views</Title>}

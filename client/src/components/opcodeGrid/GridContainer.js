@@ -2,6 +2,8 @@ import React from "react";
 import OpcodesContext from "../../contexts/opcodes/OpcodesContext";
 import OpcodeGrid from "./OpcodeGrid";
 import SearchHeader from "../header/SearchHeader";
+import { SelectButton } from "../Common/Button";
+import styled from "styled-components";
 
 export const GridContainer = () => {
     const {
@@ -53,11 +55,21 @@ export const GridContainer = () => {
             {status === 'idle' && 
                 <div>
                     
-                    <div>
-                        <button onClick={handleUnprefixedClick}>Unprefixed</button>
-                        <button onClick={handlePrefixedClick}>Prefixed</button>
-                    </div>
-                    <OpcodeGrid codesToDisplay={codeType} prefixed={prefixedFlag} />
+                    <Container>
+                        <RotatedBtnContainer>
+                            <SelectButton height={25} width={95} onClick={handleUnprefixedClick}></SelectButton>
+                            <div>Unprefixed</div>
+                        </RotatedBtnContainer>
+                        <RotatedBtnContainer>
+                            <SelectButton height={25} width={95} onClick={handlePrefixedClick}></SelectButton>
+                            <div>Prefixed</div>
+                        </RotatedBtnContainer>
+                        
+                    </Container>
+                    <Bezel>
+                        <OpcodeGrid codesToDisplay={codeType} prefixed={prefixedFlag} />
+                    </Bezel>
+                    
                 </div>
             }</>
     )
@@ -65,3 +77,27 @@ export const GridContainer = () => {
 
 
 }
+
+const Container = styled.div`
+    display: flex;
+    gap: 10px;
+    padding: 10px 5px;
+`
+
+const RotatedBtnContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transform: rotate(-15deg);
+`;
+
+const Bezel = styled.div`
+    background-color: #808080;
+    padding: 20px 40px;
+    border-radius: 10px;
+    border-bottom-right-radius: 40px; 
+    width: 99%;
+    margin: 5px;
+`;

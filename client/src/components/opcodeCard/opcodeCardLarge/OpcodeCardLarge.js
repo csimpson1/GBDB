@@ -77,10 +77,13 @@ export const OpcodeCardLarge = ({
     category, 
     onClick,
     xPos,
-    yPos
+    yPos,
+    xOverflow,
+    yOverflow,
 }) => {
     console.log(category);
     console.log(mnemonic);
+    console.log(xOverflow, ' ', yOverflow);
     const theme = getCardColor(mnemonic, operands);
 
     // TT -> Tool Tip
@@ -160,7 +163,7 @@ export const OpcodeCardLarge = ({
 
     return (
         <ThemeProvider theme={theme}>
-            <Container onClick={onClick} xPos={xPos} yPos={yPos}>
+            <Container onClick={onClick} xPos={xPos} yPos={yPos} xOverflow={xOverflow} yOverflow={yOverflow}>
                 {/* Category */}
                     {toolTip &&
                         <StyledReactTooltip
@@ -462,8 +465,10 @@ const FlagInfo = ({flag}) => {
 
 const Container = styled.div`
     position: absolute;
-    top: ${props => props.xPos}px;//50%;
-    left: ${props => props.yPos}px;//50%;
+    /* top: ${props => props.yPos}px;//50%;
+    left: ${props => props.xPos}px;//50%; */
+    ${props => props.xOverflow? `right: calc(1vw);`: `left:${props.xPos}px;`}
+    ${props => props.yOverflow? `bottom: calc(1vh);`: `top:${props.yPos}px;`}
     display: flex;
     flex-direction: column;
     justify-content: center;

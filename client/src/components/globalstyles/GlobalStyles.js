@@ -12,7 +12,8 @@ export default createGlobalStyle`
         --color-pinkred: #FF083C;
         --color-pink: #D807DE;
         --color-purple: #8105F5;
-        --color-blue: #1407DE;
+        //--color-blue: #1407DE;
+        --color-blue: #589eff;
         --color-lightblue: #0163FF;
 
         /*  */
@@ -21,11 +22,16 @@ export default createGlobalStyle`
         --color-pinkred-ds: #FF94AE;
         --color-pink-ds: #DB81DE;
         --color-purple-ds: #A249F5;
-        --color-blue-ds: #4D43DE;
+        //--color-blue-ds: #4D43DE;
+        --color-blue-ds: #2881CE;
         --color-lightblue-ds: #4D43DE;
 
 
         /* Sizing variables */
         
+    }
+
+    body{
+        background-color: ivory;
     }
 `;

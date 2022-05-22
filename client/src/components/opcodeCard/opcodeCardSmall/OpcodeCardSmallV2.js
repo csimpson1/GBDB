@@ -131,7 +131,7 @@ const Front = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    margin: 2px;
     grid-column-start:${props => props.colStart+1};
     grid-column-end: ${props => props.colStart+2};
     grid-row-start:${props => props.rowStart+1};

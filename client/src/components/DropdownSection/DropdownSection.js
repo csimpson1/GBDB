@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Collapse } from 'react-collapse';
 import {CgChevronRightO, CgChevronDownO} from 'react-icons/cg';
-
+import {Button} from "../Common/Button";
 
 const DropdownSection = ({children, title}) => {
 
@@ -19,7 +19,7 @@ const DropdownSection = ({children, title}) => {
     return(
         <DropdownContainer>
             <div>
-                <button onClick={toggleOpen}>{isOpen && <CgChevronDownO/>}{!isOpen && <CgChevronRightO/>}</button>
+                <Button onClick={toggleOpen}>{isOpen && <CgChevronDownO/>}{!isOpen && <CgChevronRightO/>}</Button>
             </div>
             <Container>
                 {!isOpen && <Title>{title}</Title>}
@@ -36,6 +36,7 @@ const DropdownContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    margin: 5px;
 `
 
 const Title = styled.div`
