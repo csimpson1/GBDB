@@ -13,7 +13,8 @@ import FilterOptions from "./components/filter_v2/FilterOptions";
 import { GridContainer } from "./components/opcodeGrid/GridContainer";
 import {TestOpcodeLarge} from "./components/opcodeCard/opcodeCardLarge/TestOpcodeLarge"
 import Loader from "./components/Loader/Loader";
-
+import Header from "./components/header/Header";
+import AboutPage from "./components/AboutPage/AboutPage";
 function App() {
   return (
       <OpcodesProvider>
@@ -21,13 +22,11 @@ function App() {
             <GlobalStyles />
             <FilterProvider>
               <ViewsProvider>
+                <Header></Header>
                 <Routes>
                 <Route path="/" element={<GridContainer/>}/>
-                <Route path="/help" element={<Loader/>}/>
-                <Route path="/ops"/>
-                <Route path="/ops/:id"/>
-                <Route path="/cbops"/>
-                <Route path="cbops/:id/"/>
+                <Route path="/about" element={<AboutPage/>}/>
+
               </Routes>
               </ViewsProvider>
             </FilterProvider>
