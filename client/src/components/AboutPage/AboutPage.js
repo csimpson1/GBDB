@@ -53,6 +53,8 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 800px;
+    margin: auto;
 
 `;
 

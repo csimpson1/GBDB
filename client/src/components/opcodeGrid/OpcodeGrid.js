@@ -122,7 +122,7 @@ const OpcodeGrid = ({codesToDisplay, prefixed}) => {
                         gridCoords && gridCoords.map((gridRow, rowIdx) => gridRow.map(
                             (elt, colIdx) => {
                                 if(!elt){
-                                    return <OpcodeCardSmallFiller rowStart={rowIdx} colStart={colIdx}/>
+                                    return <OpcodeCardSmallFiller rowStart={rowIdx+1} colStart={colIdx+1}/>
                                 }
                             }
                         ))
